@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked; // lock cursor to the center of the screen
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -30,17 +32,19 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDirection = Vector3.zero;
         moveDirection.x = input.x;
         moveDirection.z = input.y;
-        controller.Move(moveDirection * (speed * Time.deltaTime));
+        Vector3 move = transform.right * moveDirection.x + transform.forward * moveDirection.z;
+        controller.Move(move * speed * Time.deltaTime);
         
         // apply gravity
         playerVelocity.y += gravityValue * Time.deltaTime;
         if (isGrounded && playerVelocity.y < 0) playerVelocity.y = -2f;
         
-        controller.Move(playerVelocity * Time.deltaTime); 
+        controller.Move(playerVelocity * Time.deltaTime);
     }
 
     public void Jump()
     {
         if(isGrounded) playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
     }
+
 }

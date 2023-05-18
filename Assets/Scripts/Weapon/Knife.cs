@@ -5,7 +5,7 @@ using UnityEngine;
 public class Knife : Weapon
 {
     #region -Declared Variables-
-
+    
     [SerializeField] private int recoil;
     [SerializeField] private float knifeDelay;
     [SerializeField] private int minDamage;
