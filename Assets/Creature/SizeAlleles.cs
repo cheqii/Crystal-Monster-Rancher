@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SizeAlleles : Alleles
 {
-    [SerializeField] private float a1_size;
-    [SerializeField] private float a2_size;
+    public float a1_size;
+    public float a2_size;
 
 }

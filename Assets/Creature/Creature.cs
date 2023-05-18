@@ -14,13 +14,23 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
 
 
-    [SerializeField] protected  Species _species;
-    [SerializeField] protected  Color color;
-    [SerializeField] protected  float size;
-    [SerializeField] protected  float sleepTIme;
-    [SerializeField] protected  bool canSleep;
-    [SerializeField] protected  int hp;
-    [SerializeField] protected  Alleles[] genetic;
+    [SerializeField] protected Species Specie;
+    [SerializeField] protected SexEnum.Sex Sex;
+    public SexEnum.Sex GetSex()
+    {
+        return Sex;
+    } 
+    [SerializeField] protected  Color Color;
+    [SerializeField] protected  float Size;
+    [SerializeField] protected  float SleepTIme;
+    [SerializeField] protected  bool CanSleep;
+    [SerializeField] protected  int Hp;
+    
+    [SerializeField] protected Alleles[] Genetic;
+    public Alleles[] GetGenetic()
+    {
+        return Genetic;
+    } 
 
 
     //IGrowable
@@ -39,7 +49,12 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     // Start is called before the first frame update
     void Awake()
     {
-        genetic = GetComponents<Alleles>();
+        Genetic = GetComponents<Alleles>();
+
+        foreach (var v in Genetic)
+        {
+            v.SetEffects();
+        }
     }
 
     // Update is called once per frame

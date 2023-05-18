@@ -7,14 +7,13 @@ public class Dragon : Creature,ICrystallizable
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private NavMeshAgent _ai;
-    [SerializeField] private SexEnum.Sex _sex;
     
     
     
     // Start is called before the first frame update
     void Start()
     {
-        _species = Species.Dragon;
+        Specie = Species.Dragon;
     }
 
     // Update is called once per frame

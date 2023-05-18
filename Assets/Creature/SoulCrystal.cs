@@ -9,7 +9,7 @@ public class SoulCrystal : Creature,ICollectable
     // Start is called before the first frame update
     void Start()
     {
-        _species = Species.Crystal;
+        Specie = Species.Crystal;
     }
 
     // Update is called once per frame

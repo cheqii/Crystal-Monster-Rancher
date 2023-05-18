@@ -11,7 +11,7 @@ public class Plant : Creature,ICollectable
     // Start is called before the first frame update
     void Start()
     {
-        _species = Species.Plant;
+        Specie = Species.Plant;
     }
 
     // Update is called once per frame

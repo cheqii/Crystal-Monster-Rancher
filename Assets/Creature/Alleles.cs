@@ -4,11 +4,20 @@ using UnityEngine;
 
 public class Alleles : MonoBehaviour
 {
-    [SerializeField] private int Allele_1_Streght;
-    [SerializeField] private int Allele_2_Streght;
-    [SerializeField] private bool isPureBreed;
-    
-    
+    public enum AllelesType
+    {
+        Color,
+        Size
+    }
+
+
+    [Header("Genotype")]
+    public int Allele_1_Streght;
+    public int Allele_2_Streght;
+    public bool isPureBreed;
+
+    [Header("Phenotype")]
+    public AllelesType Type;
     
     // Start is called before the first frame update
     void Start()
