@@ -11,7 +11,7 @@ public class Dragon : Creature,ICrystallizable
     
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Specie = Species.Dragon;
     }

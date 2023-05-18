@@ -34,7 +34,7 @@ public class Breed : MonoBehaviour
     {
         //return when not in condition
         if (a.GetGenetic().Length <= 0 || b.GetGenetic().Length <= 0) return;
-        if (a.GetSex() == b.GetSex()) return;
+        if (a.Sex == b.Sex ) return;
         
         
         //Instantiate child
@@ -82,25 +82,25 @@ public class Breed : MonoBehaviour
         
         if (assortment.x == 0)
         {
-            childColorAlleles.Allele_1_Streght = a.Allele_1_Streght;
+            childColorAlleles.Allele_1_Dominant = a.Allele_1_Dominant;
             childColorAlleles.a1_color = a.a1_color;
         }
         else if (assortment.x == 1)
         {
-            childColorAlleles.Allele_1_Streght = a.Allele_2_Streght;
+            childColorAlleles.Allele_1_Dominant = a.Allele_2_Dominant;
             childColorAlleles.a1_color = a.a2_color;
 
         }
         
         if (assortment.y == 0)
         {
-            childColorAlleles.Allele_2_Streght = b.Allele_1_Streght;
+            childColorAlleles.Allele_2_Dominant = b.Allele_1_Dominant;
             childColorAlleles.a2_color = b.a1_color;
 
         }
         else if (assortment.y == 1)
         {
-            childColorAlleles.Allele_2_Streght = b.Allele_2_Streght;
+            childColorAlleles.Allele_2_Dominant = b.Allele_2_Dominant;
             childColorAlleles.a2_color = b.a2_color;
         }
     }
@@ -110,25 +110,25 @@ public class Breed : MonoBehaviour
     {
         if (assortment.x == 0)
         {
-            childSizeAlleles.Allele_1_Streght = a.Allele_1_Streght;
+            childSizeAlleles.Allele_1_Dominant = a.Allele_1_Dominant;
             childSizeAlleles.a1_size = a.a1_size;
         }
         else if (assortment.x == 1)
         {
-            childSizeAlleles.Allele_1_Streght = a.Allele_2_Streght;
+            childSizeAlleles.Allele_1_Dominant = a.Allele_2_Dominant;
             childSizeAlleles.a1_size = a.a2_size;
 
         }
         
         if (assortment.y == 0)
         {
-            childSizeAlleles.Allele_2_Streght = a.Allele_1_Streght;
+            childSizeAlleles.Allele_2_Dominant = a.Allele_1_Dominant;
             childSizeAlleles.a2_size = b.a1_size;
 
         }
         else if (assortment.x == 1)
         {
-            childSizeAlleles.Allele_2_Streght = a.Allele_2_Streght;
+            childSizeAlleles.Allele_2_Dominant = a.Allele_2_Dominant;
             childSizeAlleles.a2_size = b.a2_size;
         }
     }

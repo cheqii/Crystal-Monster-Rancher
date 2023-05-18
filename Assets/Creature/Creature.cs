@@ -14,23 +14,31 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
 
 
-    [SerializeField] protected Species Specie;
-    [SerializeField] protected SexEnum.Sex Sex;
-    public SexEnum.Sex GetSex()
-    {
-        return Sex;
-    } 
-    [SerializeField] protected  Color Color;
-    [SerializeField] protected  float Size;
-    [SerializeField] protected  float SleepTIme;
-    [SerializeField] protected  bool CanSleep;
-    [SerializeField] protected  int Hp;
+    [field: SerializeField]
+    public Species Specie { get; protected set; }
+    
+    [field: SerializeField]
+    public SexEnum.Sex Sex { get; protected set; }
+    
+    [field: SerializeField]
+    public Color Color { get; protected set; }
+    
+    [field: SerializeField]
+    public  float Size { get; protected set; }
+    
+    [field: SerializeField]
+    public  float SleepTIme { get; protected set; }
+    
+    [field: SerializeField]
+    public  bool CanSleep { get; protected set; }
+    
+    [field: SerializeField]
+    public  int Hp { get; protected set; }
+    
     
     [SerializeField] protected Alleles[] Genetic;
     public Alleles[] GetGenetic()
-    {
-        return Genetic;
-    } 
+    { return Genetic; } 
 
 
     //IGrowable
@@ -47,7 +55,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         Genetic = GetComponents<Alleles>();
 
@@ -87,6 +95,11 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     public virtual void Sleep()
     {
         
+    }
+    
+    public void SetColor(Color _color)
+    {
+        Color = _color;
     }
     
 }
