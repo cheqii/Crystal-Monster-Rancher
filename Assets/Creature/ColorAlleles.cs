@@ -9,7 +9,7 @@ public class ColorAlleles : Alleles
     
     
     
-    void Start()
+    public void Start()
     {
         base.Start();
 

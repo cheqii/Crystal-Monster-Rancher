@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+[ExecuteInEditMode]
 public class Dragon : Creature,ICrystallizable
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private NavMeshAgent _ai;
+
+
+    [SerializeField] private GameObject renderer;
     
     
     
@@ -16,10 +21,10 @@ public class Dragon : Creature,ICrystallizable
         Specie = Species.Dragon;
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
-        
+        renderer.GetComponent<Renderer>().sharedMaterial.color = Color;
     }
 
 
