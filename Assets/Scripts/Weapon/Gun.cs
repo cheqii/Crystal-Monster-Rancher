@@ -44,7 +44,13 @@ public class Gun : Weapon
     }
     
     [Header("Gun Type")]
-    [SerializeField] private GunType gunType = GunType.LaserGun;
+    [SerializeField] private GunType gunHold = GunType.LaserGun;
+
+    public GunType GunHold
+    {
+        get => gunHold;
+        set => gunHold = value;
+    }
 
     #endregion
 
@@ -61,6 +67,6 @@ public class Gun : Weapon
     }
 
     #endregion
-    
-    
+
+
 }

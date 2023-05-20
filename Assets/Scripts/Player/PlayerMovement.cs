@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDirection = Vector3.zero;
         moveDirection.x = input.x;
         moveDirection.z = input.y;
-        Vector3 move = transform.right * moveDirection.x + transform.forward * moveDirection.z;
+        Vector3 move = transform.right * moveDirection.x + transform.forward * moveDirection.z; // calculate movement direction
         controller.Move(move * speed * Time.deltaTime);
         
         // apply gravity

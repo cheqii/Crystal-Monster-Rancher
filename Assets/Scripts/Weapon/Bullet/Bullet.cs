@@ -11,7 +11,8 @@ public class Bullet : MonoBehaviour
         get => speed;
         set => speed = value;
     }
-    public virtual void Move()
+
+    public virtual void Move(Transform bullet)
     {
         
     }
