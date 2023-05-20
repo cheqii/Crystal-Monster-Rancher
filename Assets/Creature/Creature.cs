@@ -31,6 +31,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
     [field: SerializeField , Header("Sleep")]
     public  int SleepDelay { get; protected set; }
+    [field: SerializeField]
     public  int CrystalSleepTime { get; protected set; }
 
     
