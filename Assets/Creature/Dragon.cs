@@ -66,6 +66,8 @@ public class Dragon : Creature,ICrystallizable
 
     public void RunToTarget(Transform target, string animName)
     {
+        if (_anim.GetBool("CanMove") == false) return;
+        
         _ai.SetDestination(target.transform.position);
         attackTarget = target.GetComponent<Creature>();
         _attackArea.target = target;
@@ -76,6 +78,8 @@ public class Dragon : Creature,ICrystallizable
     
     public override void Radar(Transform target)
     {
+        if(NeedFood == false) return;
+
         _ai.isStopped = false;
 
         switch (target.transform.tag)

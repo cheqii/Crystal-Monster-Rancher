@@ -11,25 +11,27 @@ public class AttackArea : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (target == null) return;
-        
+
         if (other.gameObject == target.gameObject)
         {
             var creature = transform.parent.GetComponent<Creature>();
-            
+
             creature._anim.SetBool("CanMove", false);
+
+            //if dead eat
+            if (target.GetComponent<Creature>().IsDissolve == true) return;
             
-            //if dead eat if not dead attack
-            if (target.GetComponent<Creature>().IsDead)
+            if (target.GetComponent<Creature>().IsDead == true)
             {
                 creature._anim.SetTrigger("Eat");
+                creature._anim.SetBool("IsEating",true);
+
                 creature.CurrentStomach = creature.MaxStomach;
-                
                 target.GetComponent<Creature>().BodyDissolve();
             }
-            else
+            else if (target.GetComponent<Creature>().IsDead == false)
             {
                 creature.Attack();
-
             }
         }
     }

@@ -48,6 +48,9 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     [field: SerializeField]
     public  bool IsDead { get; protected set; }
     
+    [field: SerializeField]
+    public  bool IsDissolve { get; protected set; }
+    
     public Animator _anim { get; protected set; }
     
     
@@ -82,6 +85,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     private void Awake()
     {
         IsDead = false;
+        IsDissolve = false;
     }
 
     // Start is called before the first frame update
@@ -107,21 +111,15 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     // Update is called once per frame
     protected void Update()
     {
-        if(CurrentStomach < MaxStomach/2)
-        {
-            NeedFood = true;
-        }
-        else
-        {
-            NeedFood = false;
-        }
+       
 
         if (Hp <= 0)
         {
             Dead();
         }
-                
-   
+
+        transform.localScale = new Vector3(Size, Size, Size);
+
     }
 
     
@@ -158,6 +156,9 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     
     public virtual void BodyDissolve()
     {
+        IsDissolve = true;
+        Debug.Log("disolve " + IsDissolve);
+
         TempObject.Instance.DestroyDelay(this.gameObject,5);
     }
 
@@ -169,6 +170,11 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     public void SetColor(Color _color)
     {
         Color = _color;
+    }
+    
+    public void SetSize(float _size)
+    {
+        SizeLimit = _size;
     }
 
     protected void SetAnimationTrigger( string name)
@@ -213,6 +219,8 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
         while (true)
         {
+            
+            
             if (!Application.isPlaying)  yield break;
 
             timer--;
@@ -240,6 +248,18 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
                     CurrentStomach = 0;
                     Hp -= MaxHp / 100;
                 }
+                
+                
+                //need food
+                if (CurrentStomach < MaxStomach/2)
+                {
+                    NeedFood = true;
+                }
+                else
+                {
+                    NeedFood = false;
+                }
+
 
 
             }
