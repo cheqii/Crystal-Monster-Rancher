@@ -30,7 +30,9 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     
 
     [field: SerializeField , Header("Sleep")]
-    public  int SleepTime { get; protected set; }
+    public  int SleepDelay { get; protected set; }
+    public  int CrystalSleepTime { get; protected set; }
+
     
     [field: SerializeField]
     public  bool CanSleep { get; protected set; }
@@ -145,7 +147,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
     protected virtual IEnumerator SleepTimer()
     {
-        var timer = SleepTime;
+        var timer = SleepDelay;
         
         while (true)
         {

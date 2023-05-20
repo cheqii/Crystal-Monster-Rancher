@@ -5,7 +5,8 @@ using UnityEngine;
 public class TempObject : MonoBehaviour
 {
     public GameObject SoulCrystal;
-    
+    public GameObject CrystalParticle;
+
     
     public static TempObject Instance { get; private set; }
     
@@ -21,6 +22,12 @@ public class TempObject : MonoBehaviour
         { 
             Instance = this; 
         } 
+    }
+
+
+    public void DestroyDelay(GameObject gameObject,float delay)
+    {
+        Destroy(gameObject,delay);
     }
     
     

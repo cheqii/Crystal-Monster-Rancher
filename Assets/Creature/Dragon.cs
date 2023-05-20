@@ -122,9 +122,14 @@ public class Dragon : Creature,ICrystallizable
     public void Crystallize()
     {
         var crystal =  Instantiate(TempObject.Instance.SoulCrystal, transform.position, Quaternion.identity);
+        var crystalParticle =  Instantiate(TempObject.Instance.CrystalParticle, transform.position, Quaternion.identity);
+        crystalParticle.transform.SetParent(crystal.transform);
+        
         var soulCrystal = crystal.GetComponent<SoulCrystal>();
+        
+        TempObject.Instance.DestroyDelay(crystalParticle,2);
 
-        soulCrystal.CrystalSetup(Sex,Color,Size,SleepTime);
+        soulCrystal.CrystalSetup(Sex,Color,Size,CrystalSleepTime);
         
         this.transform.SetParent(crystal.transform);
         this.gameObject.SetActive(false);

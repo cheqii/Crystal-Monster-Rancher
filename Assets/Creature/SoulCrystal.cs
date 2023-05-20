@@ -26,7 +26,7 @@ public class SoulCrystal : Creature,ICollectable
         this.Sex = sex;
         this.Color = color;
         this.Size = size;
-        this.SleepTime = sleepTime;
+        this.SleepDelay = sleepTime;
 
         if (CanSleep)
         {
@@ -36,7 +36,15 @@ public class SoulCrystal : Creature,ICollectable
     
     public override void Sleep()
     {
+        
+        
         transform.GetChild(0).gameObject.SetActive(true);
+        
+        //particle
+        var crystalParticle =  Instantiate(TempObject.Instance.CrystalParticle, transform.position, Quaternion.identity);
+        crystalParticle.transform.SetParent(transform.GetChild(0));
+        TempObject.Instance.DestroyDelay(crystalParticle,2);
+        
         transform.GetChild(0).SetParent(null);
         Destroy(this.gameObject);
     }
