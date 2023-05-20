@@ -14,8 +14,23 @@ public class AttackArea : MonoBehaviour
         
         if (other.gameObject == target.gameObject)
         {
-            transform.parent.GetComponent<Creature>().Attack();
-            transform.parent.GetComponent<Creature>()._anim.SetBool("CanMove", false);
+            var creature = transform.parent.GetComponent<Creature>();
+            
+            creature._anim.SetBool("CanMove", false);
+            
+            //if dead eat if not dead attack
+            if (target.GetComponent<Creature>().IsDead)
+            {
+                creature._anim.SetTrigger("Eat");
+                creature.CurrentStomach = creature.MaxStomach;
+                
+                target.GetComponent<Creature>().BodyDissolve();
+            }
+            else
+            {
+                creature.Attack();
+
+            }
         }
     }
 

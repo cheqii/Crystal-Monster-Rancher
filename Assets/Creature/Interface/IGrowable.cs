@@ -4,9 +4,13 @@ using UnityEngine;
 
 public interface IGrowable
 {
-    public float GrowRate { get; set; }
+    
+    public float MaxStomach { get; set; }
+    
+    public float CurrentStomach { get; set; }
+
+    public float FoodIngestDelay { get; set; }
     public float SizeLimit  { get; set; }
-    public float EatDelay { get; set; }
     public bool NeedFood { get; set; }
 
 

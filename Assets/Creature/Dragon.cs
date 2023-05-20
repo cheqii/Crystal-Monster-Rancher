@@ -7,19 +7,28 @@ using UnityEngine.AI;
 [ExecuteInEditMode]
 public class Dragon : Creature,ICrystallizable
 {
-    
-    [Range(0f,30f)]
-    [SerializeField] private float moveSpeed; 
-    [SerializeField] private GameObject renderer;
-    private NavMeshAgent _ai;
+    [SerializeField] private FoodChoice _foodChoice;
 
+    [Range(0f,30f)]
+    [SerializeField] private float moveSpeed;
+    [SerializeField, Header("Color Renderer")] private GameObject renderer;
+    private NavMeshAgent _ai;
     private AttackArea _attackArea;
     
+    
+    private bool isEatHuman, isEatDragon, isEatPlant, isEatCrystal;
 
     // Start is called before the first frame update
     void OnEnable()
     {
         base.OnEnable();
+        
+        //set food choices
+        isEatHuman = _foodChoice.Human;
+        isEatDragon = _foodChoice.Dragon;
+        isEatPlant = _foodChoice.Plant;
+        isEatCrystal = _foodChoice.Crystal;
+
         
         _attackArea = GetComponentInChildren<AttackArea>();
         Specie = Species.Dragon;
@@ -35,6 +44,8 @@ public class Dragon : Creature,ICrystallizable
     
     void Update()
     {
+        base.Update();
+        
         //create new mat (fix later)
         Material newMat = new Material(renderer.GetComponent<Renderer>().sharedMaterial);
         newMat.color = Color;
@@ -52,6 +63,14 @@ public class Dragon : Creature,ICrystallizable
     {
         SetAnimationTrigger("Attack");
     }
+
+    public void RunToTarget(Transform target, string animName)
+    {
+        _ai.SetDestination(target.transform.position);
+        attackTarget = target.GetComponent<Creature>();
+        _attackArea.target = target;
+        SetAnimationTrigger(animName);
+    }
     
     
     
@@ -62,18 +81,24 @@ public class Dragon : Creature,ICrystallizable
         switch (target.transform.tag)
         {
             case "Player" :
-                _ai.SetDestination(target.transform.position);
-                attackTarget = target.GetComponent<Creature>();
-                _attackArea.target = target;
-                SetAnimationTrigger("Run");
+                if(isEatHuman == false) return;
+                RunToTarget(target,"Run");
+                break;
+            
+            case "Dragon" :
+                
+                if(isEatDragon == false) return;
+                RunToTarget(target,"Run");
                 break;
             
             case "Plant" :
-                _ai.SetDestination(target.transform.position);
-                attackTarget = target.GetComponent<Creature>();
-                _attackArea.target = target;
-                SetAnimationTrigger("Walk");
-
+                if(isEatPlant == false) return;
+                RunToTarget(target,"Walk");
+                break;
+            
+            case "Crystal" :
+                if(isEatCrystal == false) return;
+                RunToTarget(target,"Walk");
                 break;
         }
     }
@@ -99,7 +124,11 @@ public class Dragon : Creature,ICrystallizable
     {
         if (attackTarget != null)
         {
-            attackTarget.Damage(0);
+            if (attackTarget.IsDead == true)
+            {
+                CurrentStomach = MaxStomach;
+            }
+            attackTarget.Damage(20);
 
         }
     }

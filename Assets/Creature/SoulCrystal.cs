@@ -37,7 +37,6 @@ public class SoulCrystal : Creature,ICollectable
     public override void Sleep()
     {
         
-        
         transform.GetChild(0).gameObject.SetActive(true);
         
         //particle
