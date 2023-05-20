@@ -6,7 +6,12 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private int speed;
 
-    public void Move()
+    public int Speed
+    {
+        get => speed;
+        set => speed = value;
+    }
+    public virtual void Move()
     {
         
     }

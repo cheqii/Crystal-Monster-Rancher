@@ -8,9 +8,8 @@ public class PlayerInteraction : MonoBehaviour
     private Camera _camera;
 
     [SerializeField] private float distance = 3f;
-    [SerializeField] private SpriteRenderer crosshair;
-    // [SerializeField] private LayerMask _layerMask;
-    // Start is called before the first frame update
+    
+    
     void Start()
     {
         _camera = GetComponent<PlayerLook>().Cam;
