@@ -40,7 +40,6 @@ public class ColorAlleles : Alleles
         // divide 10 to get 0.0 to 1.0
         var dominantGap = Mathf.Abs(Allele_1_Dominant - Allele_2_Dominant)/10;
 
-        Debug.Log(dominantGap + " | " + transform.name);
         Color averageColor = Color.Lerp(a1_color, a2_color, 0.5f);
         
         

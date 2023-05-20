@@ -27,7 +27,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     public  float Size { get; protected set; }
     
     [field: SerializeField]
-    public  float SleepTIme { get; protected set; }
+    public  float SleepTime { get; protected set; }
     
     [field: SerializeField]
     public  bool CanSleep { get; protected set; }
@@ -35,10 +35,16 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     [field: SerializeField]
     public  int Hp { get; protected set; }
     
+    [field: SerializeField]
+    public Animator _anim{ get; protected set; }
+    
     
     [SerializeField] protected Alleles[] Genetic;
     public Alleles[] GetGenetic()
     { return Genetic; } 
+    
+    public Creature attackTarget;
+
 
 
     //IGrowable
@@ -52,6 +58,8 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
     //IValue
     public int _Value { get; set; }
+    
+    
 
 
     // Start is called before the first frame update
@@ -63,6 +71,8 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         {
             v.SetEffects();
         }
+
+        _anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -71,9 +81,20 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         
     }
 
-    public void Damage(int amount)
+    
+    public virtual void Radar(Transform target)
     {
         
+    }
+    
+    public virtual void StopWalking(Transform target)
+    {
+        
+    }
+    
+    public virtual void Damage (int amount)
+    {
+        Debug.Log(transform.name + " | hurt");
     }
 
 
@@ -101,5 +122,19 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     {
         Color = _color;
     }
+
+    protected void SetAnimationTrigger( string name)
+    {
+        _anim.SetTrigger(name);
+    }
+    
+    
+    protected void SetAnimationBool(AnimationEvent myEvent) 
+    {
+        //string| = name    int| 1 = true, 0 = false
+        _anim.SetBool(myEvent.stringParameter, myEvent.intParameter != 0);
+    }
+    
+  
     
 }
