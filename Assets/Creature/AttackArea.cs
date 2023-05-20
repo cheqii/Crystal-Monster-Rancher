@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class AttackArea : MonoBehaviour
 {
-    [SerializeField] private bool isEatDragon, isEatPlant, isEatCrystal, isEatPlayer;
 
     public Transform target;
 
     private void OnTriggerStay(Collider other)
     {
+        if (target == null) return;
+        
         if (other.gameObject == target.gameObject)
         {
             transform.parent.GetComponent<Creature>().Attack();
@@ -20,6 +21,8 @@ public class AttackArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (target == null) return;
+        
         if (other.gameObject == target.gameObject)
         {
             transform.parent.GetComponent<Creature>().attackTarget = null;

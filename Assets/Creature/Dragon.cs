@@ -17,8 +17,10 @@ public class Dragon : Creature,ICrystallizable
     
 
     // Start is called before the first frame update
-    void Awake()
+    void OnEnable()
     {
+        base.OnEnable();
+        
         _attackArea = GetComponentInChildren<AttackArea>();
         Specie = Species.Dragon;
         _ai = GetComponent<NavMeshAgent>();
@@ -27,11 +29,13 @@ public class Dragon : Creature,ICrystallizable
         
         GetComponent<Animator>().SetTrigger("Idle");
 
+        
     }
 
     
     void Update()
     {
+        //create new mat (fix later)
         Material newMat = new Material(renderer.GetComponent<Renderer>().sharedMaterial);
         newMat.color = Color;
         renderer.GetComponent<Renderer>().sharedMaterial = newMat;
@@ -43,6 +47,7 @@ public class Dragon : Creature,ICrystallizable
 
 
 
+    //only play animation (damage deal is on deal damage method)
     public override void Attack()
     {
         SetAnimationTrigger("Attack");
@@ -73,6 +78,7 @@ public class Dragon : Creature,ICrystallizable
         }
     }
 
+    //stop when target is out of radar
     public override void StopWalking(Transform target)
     {
         if(attackTarget == null) return;
@@ -107,10 +113,21 @@ public class Dragon : Creature,ICrystallizable
     {
         
     }
+    
+    public override void Sleep()
+    {
+        Crystallize();
+    }
 
     public void Crystallize()
     {
+        var crystal =  Instantiate(TempObject.Instance.SoulCrystal, transform.position, Quaternion.identity);
+        var soulCrystal = crystal.GetComponent<SoulCrystal>();
+
+        soulCrystal.CrystalSetup(Sex,Color,Size,SleepTime);
         
+        this.transform.SetParent(crystal.transform);
+        this.gameObject.SetActive(false);
     }
 
     

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SoulCrystal : Creature,ICollectable
 {
-    [SerializeField] private SexEnum.Sex _sex;
+    [SerializeField] private GameObject renderer;
+
     
     // Start is called before the first frame update
     void Start()
@@ -15,12 +16,29 @@ public class SoulCrystal : Creature,ICollectable
     // Update is called once per frame
     void Update()
     {
-        
+        Material newMat = new Material(renderer.GetComponent<Renderer>().sharedMaterial);
+        newMat.color = Color;
+        renderer.GetComponent<Renderer>().sharedMaterial = newMat;
     }
 
-    private void CrystalSetup()
+    public void CrystalSetup(SexEnum.Sex sex,Color color,float size,int sleepTime)
     {
-        
+        this.Sex = sex;
+        this.Color = color;
+        this.Size = size;
+        this.SleepTime = sleepTime;
+
+        if (CanSleep)
+        {
+            StartCoroutine(SleepTimer());
+        }
+    }
+    
+    public override void Sleep()
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
+        transform.GetChild(0).SetParent(null);
+        Destroy(this.gameObject);
     }
 
     public void Collect()

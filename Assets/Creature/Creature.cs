@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 {
@@ -26,8 +27,10 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     [field: SerializeField]
     public  float Size { get; protected set; }
     
-    [field: SerializeField]
-    public  float SleepTime { get; protected set; }
+    
+
+    [field: SerializeField , Header("Sleep")]
+    public  int SleepTime { get; protected set; }
     
     [field: SerializeField]
     public  bool CanSleep { get; protected set; }
@@ -35,7 +38,6 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     [field: SerializeField]
     public  int Hp { get; protected set; }
     
-    [field: SerializeField]
     public Animator _anim{ get; protected set; }
     
     
@@ -43,9 +45,10 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     public Alleles[] GetGenetic()
     { return Genetic; } 
     
+    [HideInInspector]
     public Creature attackTarget;
 
-
+    
 
     //IGrowable
     public float GrowRate { get; set; }
@@ -63,7 +66,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
 
     // Start is called before the first frame update
-    void Start()
+    protected  void OnEnable()
     {
         Genetic = GetComponents<Alleles>();
 
@@ -73,6 +76,11 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         }
 
         _anim = GetComponent<Animator>();
+
+        if (CanSleep)
+        {
+            StartCoroutine(SleepTimer());
+        }
     }
 
     // Update is called once per frame
@@ -133,6 +141,33 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     {
         //string| = name    int| 1 = true, 0 = false
         _anim.SetBool(myEvent.stringParameter, myEvent.intParameter != 0);
+    }
+
+    protected virtual IEnumerator SleepTimer()
+    {
+        var timer = SleepTime;
+        
+        while (true)
+        {
+            if (!Application.isPlaying)
+            {
+                yield break;
+            }
+            
+            
+            if (!attackTarget)
+            {
+                timer--;
+            }
+                
+            if(timer <= 0 )
+            {
+                Sleep();
+            }
+                
+            yield return new WaitForSeconds(1);
+        }
+        
     }
     
   
