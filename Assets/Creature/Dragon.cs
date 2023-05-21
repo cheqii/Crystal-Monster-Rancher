@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 
 [ExecuteInEditMode]
-public class Dragon : Creature,ICrystallizable
+public class Dragon : Creature,ICrystallizable,IWander
 {
     [SerializeField] private FoodChoice _foodChoice;
 
@@ -17,6 +17,14 @@ public class Dragon : Creature,ICrystallizable
     
     
     private bool isEatHuman, isEatDragon, isEatPlant, isEatCrystal;
+
+    
+    [field: SerializeField , Header("Wander")]
+    public float wanderRadius { get; set; }
+    [field: SerializeField,Range(0,100)]
+    public float wanderTimer { get; set; }
+    [field: SerializeField,Range(0,100)]
+    public float wanderDelay { get; set; }
 
     // Start is called before the first frame update
     void OnEnable()
@@ -37,8 +45,8 @@ public class Dragon : Creature,ICrystallizable
         
         
         GetComponent<Animator>().SetTrigger("Idle");
-
         
+        wanderTimer = wanderDelay;
     }
 
     
@@ -53,6 +61,8 @@ public class Dragon : Creature,ICrystallizable
         
         
         _ai.velocity = _ai.desiredVelocity;
+
+        Wander();
     }
 
 
@@ -157,6 +167,9 @@ public class Dragon : Creature,ICrystallizable
         var crystal =  Instantiate(TempObject.Instance.SoulCrystal, transform.position, Quaternion.identity);
         var crystalParticle =  Instantiate(TempObject.Instance.CrystalParticle, transform.position, Quaternion.identity);
         crystalParticle.transform.SetParent(crystal.transform);
+
+        //set crystal size
+        crystal.transform.localScale = new Vector3(Size * 10, Size * 10, Size * 10);
         
         var soulCrystal = crystal.GetComponent<SoulCrystal>();
         
@@ -168,6 +181,46 @@ public class Dragon : Creature,ICrystallizable
         this.gameObject.SetActive(false);
     }
 
+
+    public void Wander()
+    {
+        //wander
+        wanderTimer += Time.deltaTime;
+
+        if (wanderTimer >= wanderDelay)
+        {
+            Vector3 newPos = RandomNavSphere(transform.position, wanderRadius, -1);
+            _ai.SetDestination(newPos);
+            wanderTimer = 0;
+        }
+        else if(_ai.remainingDistance > _ai.stoppingDistance)
+        {
+            _anim.SetBool("CanMove",true);
+            SetAnimationTrigger("Walk");
+            Debug.Log("runn");
+        }
+        else if(_ai.remainingDistance <= _ai.stoppingDistance)
+        {
+            _anim.SetBool("CanMove",false);
+            SetAnimationTrigger("Idle");
+            Debug.Log("Idle");
+
+        }
+
+
+  
+    }
     
+    public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask) {
+        Vector3 randDirection = Random.insideUnitSphere * dist;
  
+        randDirection += origin;
+ 
+        NavMeshHit navHit;
+ 
+        NavMesh.SamplePosition (randDirection, out navHit, dist, layermask);
+ 
+        return navHit.position;
+    }
+    
 }
