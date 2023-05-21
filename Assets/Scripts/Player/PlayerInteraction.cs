@@ -32,7 +32,6 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Debug.Log("Shoot!");
                     Debug.Log("Hit: " + hit.collider.name);
                 }
             }

@@ -4,10 +4,12 @@ using TMPro;
 
 public class LaserGun : Gun, IShoot
 {
+    #region -Declared Variables-
+
     [Header("Laser Gun Line & Laser Bullet")]
     [SerializeField] private LaserBullet laserBullet;
-    [SerializeField] private Transform laserOrigin;
-    [SerializeField] private Transform shootPoint;
+    [SerializeField] private Transform laserOrigin; // origin of the laser from the gun
+    [SerializeField] private Transform shootPoint; // where bullet shoot from
  
     private LineRenderer _line;
 
@@ -23,6 +25,11 @@ public class LaserGun : Gun, IShoot
     [Header("Laser Gun")]
     private float fireRate = 0.2f;
     private float nextFire;
+
+    #endregion
+
+    #region -Unity Event Functions-
+
     private void Awake()
     {
         _line = GetComponent<LineRenderer>();
@@ -41,6 +48,8 @@ public class LaserGun : Gun, IShoot
         Shoot();
     }
 
+    #endregion
+
     #region -Laser Shoot-
 
     public void Shoot()
@@ -54,20 +63,18 @@ public class LaserGun : Gun, IShoot
             _line.SetPosition(0, laserOrigin.position); // set line origin to laser origin
             Vector3 rayOrigin = _Camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f)); // center of the camera to create ray origin
             RaycastHit hit;
-            
-            
+
             if (Physics.Raycast(rayOrigin, _Camera.transform.forward, out hit, Distance))
             {
                 _line.SetPosition(1, hit.point); // set end position of line to hit point
                 laserBullet.DealDamage(hit.transform.gameObject);
                 Destroy(hit.transform.gameObject);
             }
-            else
-            {
-                _line.SetPosition(1, rayOrigin + (_Camera.transform.forward * Distance)); // set end position of line to ray origin -> distance
-            }
+            else // set end position of line to ray origin -> distance
+                _line.SetPosition(1, rayOrigin + (_Camera.transform.forward * Distance));
             
-            laserBullet.Move(shootPoint);
+            
+            laserBullet.Move(shootPoint); // Instantiate laser bullet and shoot it to the target
             StartCoroutine(ShootDelay()); // delay for laser line
         }
         

@@ -6,11 +6,10 @@ public class CrystalBullet : Bullet
 {
     public override void Move(Transform bullet)
     {
-        GameObject crystalBullet = Instantiate(gameObject, bullet.position, bullet.rotation);
-        crystalBullet.GetComponent<Rigidbody>().velocity = crystalBullet.transform.forward * Speed;
+        GameObject cloneBullet = Instantiate(gameObject, bullet.position, bullet.rotation);
+        cloneBullet.GetComponent<Rigidbody>().velocity = cloneBullet.transform.forward * Speed;
         
-        Debug.Log("Crystal Bullet Move");
-        // transform.Translate(Vector3.forward * Speed * Time.deltaTime);
+        if(cloneBullet.gameObject.activeInHierarchy) Destroy(cloneBullet, 2f);
     }
     public void CrystalizeTarget(GameObject target)
     {

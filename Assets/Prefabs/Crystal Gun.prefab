@@ -118,6 +118,8 @@ MonoBehaviour:
   gunHold: 3
   crystalBullet: {fileID: -748502762470817128, guid: 730204f7210a8074d9507ebd99082489,
     type: 3}
+  shootPoint: {fileID: 2675252897445447665, guid: 1ae33e6b10e0d144f86c3c6e4dc720e8,
+    type: 3}
 --- !u!1 &8005079019877484541
 GameObject:
   m_ObjectHideFlags: 0

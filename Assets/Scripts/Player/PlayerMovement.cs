@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = controller.isGrounded;
     }
 
+    #region -Player Movement-
+
     public void ProcessMove(Vector2 input)  // receives input from InputManager.cs and apply it to the character controller component
     {
         Vector3 moveDirection = Vector3.zero;
@@ -46,5 +48,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isGrounded) playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
     }
+
+    #endregion
 
 }

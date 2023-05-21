@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -9,10 +10,11 @@ public class LaserBullet : Bullet
 
     public override void Move(Transform bullet)
     {
-        GameObject laser = Instantiate(gameObject, bullet.position, bullet.rotation);
-        laser.GetComponent<Rigidbody>().velocity = laser.transform.forward * Speed;
+        GameObject cloneBullet = Instantiate(gameObject, bullet.position, bullet.rotation);
+        cloneBullet.GetComponent<Rigidbody>().velocity = cloneBullet.transform.forward * Speed;
         
-        Debug.Log("Laser Bullet Move");
+        // check if the clone bullet have active in the hierarchy then destroy it after 2 seconds
+        if(cloneBullet.gameObject.activeInHierarchy) Destroy(cloneBullet, 2f);
     }
 
     public void DealDamage(GameObject target)

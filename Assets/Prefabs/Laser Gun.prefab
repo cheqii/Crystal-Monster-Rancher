@@ -138,6 +138,8 @@ MonoBehaviour:
   laserBullet: {fileID: 7528798581491325233, guid: 301b5428ace79e442b4a5073bbfe6a49,
     type: 3}
   laserOrigin: {fileID: 399906830577932318}
+  shootPoint: {fileID: 2675252897445447665, guid: 1ae33e6b10e0d144f86c3c6e4dc720e8,
+    type: 3}
   ammoText: {fileID: 0}
 --- !u!120 &399906829704951546
 LineRenderer:
