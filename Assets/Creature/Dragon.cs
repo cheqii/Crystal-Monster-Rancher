@@ -17,14 +17,18 @@ public class Dragon : Creature,ICrystallizable,IWander
     
     
     private bool isEatHuman, isEatDragon, isEatPlant, isEatCrystal;
+    private IWander _wanderImplementation;
 
-    
+
     [field: SerializeField , Header("Wander")]
     public float wanderRadius { get; set; }
     [field: SerializeField,Range(0,100)]
     public float wanderTimer { get; set; }
     [field: SerializeField,Range(0,100)]
     public float wanderDelay { get; set; }
+    [field: SerializeField ]
+    public bool isWander { get; set; }
+
 
     // Start is called before the first frame update
     void OnEnable()
@@ -46,6 +50,9 @@ public class Dragon : Creature,ICrystallizable,IWander
         
         GetComponent<Animator>().SetTrigger("Idle");
         
+        isWander = true;
+
+        
         wanderTimer = wanderDelay;
     }
 
@@ -63,6 +70,8 @@ public class Dragon : Creature,ICrystallizable,IWander
         _ai.velocity = _ai.desiredVelocity;
 
         Wander();
+
+   
     }
 
 
@@ -78,6 +87,8 @@ public class Dragon : Creature,ICrystallizable,IWander
     {
         if (_anim.GetBool("CanMove") == false) return;
         
+        isWander = false;
+
         _ai.SetDestination(target.transform.position);
         attackTarget = target.GetComponent<Creature>();
         _attackArea.target = target;
@@ -129,6 +140,8 @@ public class Dragon : Creature,ICrystallizable,IWander
             _ai.isStopped = true;
             SetAnimationTrigger("Idle");
 
+
+            isWander = true;
         }
     }
     
@@ -156,6 +169,12 @@ public class Dragon : Creature,ICrystallizable,IWander
     {
         
     }
+
+    public void SetIsWander(bool _bool)
+    {
+        isWander = _bool;
+    }
+
     
     public override void Sleep()
     {
@@ -184,6 +203,15 @@ public class Dragon : Creature,ICrystallizable,IWander
 
     public void Wander()
     {
+        //if target missing go wander
+        if (attackTarget == null)
+        {
+            SetIsWander(true);
+        }
+        
+        
+        if(isWander == false) return;
+        
         //wander
         wanderTimer += Time.deltaTime;
 
