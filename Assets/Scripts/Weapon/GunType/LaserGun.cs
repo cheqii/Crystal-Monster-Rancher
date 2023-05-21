@@ -75,14 +75,14 @@ public class LaserGun : Gun, IShoot
             
             
             laserBullet.Move(shootPoint); // Instantiate laser bullet and shoot it to the target
-            StartCoroutine(ShootDelay()); // delay for laser line
+            StartCoroutine(LaserDelay()); // delay for laser line
         }
         
         if(Ammo <= 0)
             Debug.Log("Out of Ammo!");
     }
 
-    IEnumerator ShootDelay()
+    IEnumerator LaserDelay()
     {
         _line.enabled = true;
         yield return new WaitForSeconds(AmmoDelay);
