@@ -2,6 +2,7 @@ using UnityEngine;
 
 public enum GunType
 {
+    None,
     WaterGun,
     GravityGun,
     LaserGun,

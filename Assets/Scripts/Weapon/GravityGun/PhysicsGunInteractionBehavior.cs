@@ -14,7 +14,7 @@ using UnityEngine.UI;
  * Original author: Jake Perry, reddit.com/user/nandos13
  */
 
-public class PhysicsGunInteractionBehavior : MonoBehaviour
+public class PhysicsGunInteractionBehavior : Gun
 {
     [Header("LayerMask"), Tooltip("The layer which the gun can grab objects from")]
     [SerializeField]
@@ -194,6 +194,7 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
 	private void Update ()
     {
+        if(GunHold != GunType.GravityGun) return;
         if (!Input.GetMouseButton(0))
         {
             // We are not holding the mouse button. Release the object and return before checking for a new one
