@@ -119,6 +119,18 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         {
             Dead();
         }
+        
+        //need food
+        if (CurrentStomach < MaxStomach/2)
+        {
+            NeedFood = true;
+        }
+        else
+        {
+            NeedFood = false;
+        }
+
+        
 
         transform.localScale = new Vector3(Size, Size, Size);
 
@@ -252,16 +264,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
                 }
                 
                 
-                //need food
-                if (CurrentStomach < MaxStomach/2)
-                {
-                    NeedFood = true;
-                }
-                else
-                {
-                    NeedFood = false;
-                }
-
+         
 
 
             }
