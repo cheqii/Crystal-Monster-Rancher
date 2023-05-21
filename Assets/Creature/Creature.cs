@@ -14,6 +14,8 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     }
 
 
+    [field: SerializeField]
+    public float MaxSpeed { get; protected set; }
 
 
     [field: SerializeField]

@@ -71,7 +71,8 @@ public class Dragon : Creature,ICrystallizable,IWander
 
         Wander();
 
-   
+        //hungry kinesis
+        _ai.speed = Mathf.Clamp(_ai.speed, 1, MaxSpeed);
     }
 
 
@@ -212,6 +213,9 @@ public class Dragon : Creature,ICrystallizable,IWander
         
         if(isWander == false) return;
         
+        //kinesis
+        _ai.speed = Mathf.Lerp(MaxSpeed,0 , CurrentStomach/10);
+        
         //wander
         wanderTimer += Time.deltaTime;
 
@@ -224,14 +228,11 @@ public class Dragon : Creature,ICrystallizable,IWander
         else if(_ai.remainingDistance > _ai.stoppingDistance)
         {
             _anim.SetBool("CanMove",true);
-            SetAnimationTrigger("Walk");
-            Debug.Log("runn");
-        }
+            SetAnimationTrigger("Walk"); }
         else if(_ai.remainingDistance <= _ai.stoppingDistance)
         {
             _anim.SetBool("CanMove",false);
             SetAnimationTrigger("Idle");
-            Debug.Log("Idle");
 
         }
 
