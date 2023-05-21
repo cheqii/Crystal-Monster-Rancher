@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1338270247868209300}
   - component: {fileID: 8336823686600651409}
   - component: {fileID: 8870533923898338388}
-  - component: {fileID: 7929005807681479315}
   m_Layer: 0
   m_Name: Crystal Gun
   m_TagString: Untagged
@@ -99,27 +98,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7929005807681479315
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7111012954835625611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a46f09d0b413c1848bc345b6809c4f0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 3
-  ammo: 199
-  recoil: 0
-  ammoDelay: 0.5
-  gunHold: 3
-  crystalBullet: {fileID: -748502762470817128, guid: 730204f7210a8074d9507ebd99082489,
-    type: 3}
-  shootPoint: {fileID: 2675252897445447665, guid: 1ae33e6b10e0d144f86c3c6e4dc720e8,
-    type: 3}
 --- !u!1 &8005079019877484541
 GameObject:
   m_ObjectHideFlags: 0
