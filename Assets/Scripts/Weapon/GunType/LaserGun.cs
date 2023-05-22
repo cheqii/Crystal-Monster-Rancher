@@ -43,8 +43,6 @@ public class LaserGun : Gun, IShoot
 
     void Update()
     {
-        if(GunHold != GunType.LaserGun) return;
-        ammoText.enabled = true;
         Shoot();
     }
 
@@ -56,6 +54,7 @@ public class LaserGun : Gun, IShoot
     {
         nextFire += Time.deltaTime;
         if (GunHold != GunType.LaserGun) return;
+        ammoText.enabled = true;
         if (Input.GetMouseButtonDown(0) && Ammo > 0 && nextFire > fireRate)
         {
             Ammo -= 1;

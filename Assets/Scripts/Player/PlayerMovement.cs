@@ -16,8 +16,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked; // lock cursor to the center of the screen
-        Cursor.visible = false;
+        // Cursor.lockState = CursorLockMode.Locked; // lock cursor to the center of the screen
+        // Cursor.visible = false;
     }
 
     // Update is called once per frame
