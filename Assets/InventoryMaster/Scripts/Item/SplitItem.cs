@@ -8,7 +8,7 @@ public class SplitItem : MonoBehaviour, IPointerDownHandler
 
     private bool pressingButtonToSplit;             //bool for pressing a item to split it
     public Inventory inv;                          //inventory script  
-    static InputManager inputManagerDatabase = null;
+    static InventoryInputManager inputManagerDatabase = null;
 
     void Update()
     {
@@ -21,7 +21,7 @@ public class SplitItem : MonoBehaviour, IPointerDownHandler
 
     void Start()
     {
-        inputManagerDatabase = (InputManager)Resources.Load("InputManager");
+        inputManagerDatabase = (InventoryInputManager)Resources.Load("InputManager");
     }
 
     public void OnPointerDown(PointerEventData data)                    //splitting the item now

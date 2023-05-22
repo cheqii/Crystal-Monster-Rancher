@@ -7,12 +7,12 @@ using UnityEditor;
 public class CreateInputManager
 {
 
-    public static InputManager asset;
+    public static InventoryInputManager asset;
 
 #if UNITY_EDITOR
-    public static InputManager createInputManager()
+    public static InventoryInputManager createInputManager()
     {
-        asset = ScriptableObject.CreateInstance<InputManager>();
+        asset = ScriptableObject.CreateInstance<InventoryInputManager>();
 
         AssetDatabase.CreateAsset(asset, "Assets/InventoryMaster/Resources/InputManager.asset");
         AssetDatabase.SaveAssets();

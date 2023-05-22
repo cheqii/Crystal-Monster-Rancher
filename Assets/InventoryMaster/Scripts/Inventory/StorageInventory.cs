@@ -24,7 +24,7 @@ public class StorageInventory : MonoBehaviour
 
     public float timeToOpenStorage;
 
-    private InputManager inputManagerDatabase;
+    private InventoryInputManager inputManagerDatabase;
 
     float startTimer;
     float endTimer;
@@ -54,7 +54,7 @@ public class StorageInventory : MonoBehaviour
     void Start()
     {
         if (inputManagerDatabase == null)
-            inputManagerDatabase = (InputManager)Resources.Load("InputManager");
+            inputManagerDatabase = (InventoryInputManager)Resources.Load("InputManager");
 
         player = GameObject.FindGameObjectWithTag("Player");
         inv = inventory.GetComponent<Inventory>();

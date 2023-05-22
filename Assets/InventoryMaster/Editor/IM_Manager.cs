@@ -33,7 +33,7 @@ public class IM_Manager : EditorWindow
         if (inputManager == null)
             inputManagerDatabase = CreateInputManager.createInputManager();
         else
-            inputManagerDatabase = (InputManager)Resources.Load("InputManager");
+            inputManagerDatabase = (InventoryInputManager)Resources.Load("InputManager");
 
 
     }
@@ -50,7 +50,7 @@ public class IM_Manager : EditorWindow
     //Itemdatabase
     static ItemDataBaseList inventoryItemList = null;
     static ItemAttributeList itemAttributeList = null;
-    static InputManager inputManagerDatabase = null;
+    static InventoryInputManager inputManagerDatabase = null;
     List<bool> manageItem = new List<bool>();
 
     Vector2 scrollPosition;
@@ -600,7 +600,7 @@ public class IM_Manager : EditorWindow
 
         EditorGUI.BeginChangeCheck();
         if (inputManagerDatabase == null)
-            inputManagerDatabase = (InputManager)Resources.Load("InputManager");
+            inputManagerDatabase = (InventoryInputManager)Resources.Load("InputManager");
 
         //inputManagerDatabase.UFPS = EditorGUILayout.ToggleLeft("UFPS On/Off", inputManagerDatabase.UFPS);
         //if (EditorGUI.EndChangeCheck())

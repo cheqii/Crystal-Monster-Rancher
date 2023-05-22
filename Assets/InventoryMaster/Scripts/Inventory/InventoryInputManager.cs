@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InputManager : ScriptableObject
+public class InventoryInputManager : ScriptableObject
 {
     public bool UFPS;
     public KeyCode reloadWeapon = KeyCode.R;

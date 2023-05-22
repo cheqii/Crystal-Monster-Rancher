@@ -14,7 +14,7 @@ public class PlayerInventory : MonoBehaviour
     private Inventory characterSystemInventory;
     private Tooltip toolTip;
 
-    private InputManager inputManagerDatabase;
+    private InventoryInputManager inputManagerDatabase;
 
     public GameObject HPMANACanvas;
 
@@ -171,7 +171,7 @@ public class PlayerInventory : MonoBehaviour
         //}
 
         if (inputManagerDatabase == null)
-            inputManagerDatabase = (InputManager)Resources.Load("InputManager");
+            inputManagerDatabase = (InventoryInputManager)Resources.Load("InputManager");
 
         if (craftSystem != null)
             cS = craftSystem.GetComponent<CraftSystem>();
