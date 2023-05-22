@@ -14,9 +14,6 @@ public class Dragon : Creature,ICrystallizable,IWander
     [SerializeField, Header("Color Renderer")] private GameObject renderer;
     private NavMeshAgent _ai;
     private AttackArea _attackArea;
-    
-    
-    private bool isEatHuman, isEatDragon, isEatPlant, isEatCrystal;
     private IWander _wanderImplementation;
 
 
@@ -35,13 +32,7 @@ public class Dragon : Creature,ICrystallizable,IWander
     {
         base.OnEnable();
         
-        //set food choices
-        isEatHuman = _foodChoice.Human;
-        isEatDragon = _foodChoice.Dragon;
-        isEatPlant = _foodChoice.Plant;
-        isEatCrystal = _foodChoice.Crystal;
 
-        
         _attackArea = GetComponentInChildren<AttackArea>();
         Specie = Species.Dragon;
         _ai = GetComponent<NavMeshAgent>();
@@ -73,14 +64,41 @@ public class Dragon : Creature,ICrystallizable,IWander
 
         //hungry kinesis
         _ai.speed = Mathf.Clamp(_ai.speed, 1, MaxSpeed);
+
+
+        FoodChoice();
+
     }
 
-
+    private void FoodChoice()
+    {
+        FoodChoiceSet(_foodChoice.EatCrystalWhen, _foodChoice.Crystal);
+        FoodChoiceSet(_foodChoice.EatDragonWhen, _foodChoice.Dragon);
+        FoodChoiceSet(_foodChoice.EatHumanWhen, _foodChoice.Human);
+        FoodChoiceSet(_foodChoice.EatPlantWhen, _foodChoice.Plant);
+    }
+    
+    private void FoodChoiceSet(float trigger, bool food)
+    {
+        //set food choices
+        if (trigger > CurrentStomach)
+        {
+            food = true;
+        }
+        else
+        {
+            food = false;
+        }
+    }
+    
 
 
     //only play animation (damage deal is on deal damage method)
     public override void Attack()
     {
+        //if dead not attack
+        base.Attack();
+        
         SetAnimationTrigger("Attack");
     }
 
@@ -107,23 +125,23 @@ public class Dragon : Creature,ICrystallizable,IWander
         switch (target.transform.tag)
         {
             case "Player" :
-                if(isEatHuman == false) return;
+                if(_foodChoice.Human == false) return;
                 RunToTarget(target,"Run");
                 break;
             
             case "Dragon" :
                 
-                if(isEatDragon == false) return;
+                if(_foodChoice.Dragon == false) return;
                 RunToTarget(target,"Run");
                 break;
             
             case "Plant" :
-                if(isEatPlant == false) return;
+                if(_foodChoice.Plant == false) return;
                 RunToTarget(target,"Walk");
                 break;
             
             case "Crystal" :
-                if(isEatCrystal == false) return;
+                if(_foodChoice.Crystal == false) return;
                 RunToTarget(target,"Walk");
                 break;
         }
@@ -156,7 +174,7 @@ public class Dragon : Creature,ICrystallizable,IWander
             {
                 CurrentStomach = MaxStomach;
             }
-            attackTarget.Damage(20);
+            attackTarget.Damage(20,this.gameObject);
 
         }
     }

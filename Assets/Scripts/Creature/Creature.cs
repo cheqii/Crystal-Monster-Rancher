@@ -66,10 +66,9 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     
 
     //IGrowable
-    [field: SerializeField,Header("Food") , Range(0,10)]
     public float MaxStomach { get; set; }
     
-    [field: SerializeField , Range(0,10)]
+    [field: SerializeField,Header("Food") , Range(0,10)]
     public float CurrentStomach { get; set; }
     [field: SerializeField , Range(0,10)]
     public float SizeLimit { get; set; }
@@ -88,6 +87,8 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     {
         IsDead = false;
         IsDissolve = false;
+
+        MaxStomach = 10;
     }
 
     // Start is called before the first frame update
@@ -147,8 +148,9 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         
     }
     
-    public virtual void Damage (int amount)
+    public virtual void Damage (int amount, GameObject damageDealer)
     {
+        Radar(damageDealer.transform);
         Hp -= amount;
     }
 
@@ -160,12 +162,15 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
     public virtual void Attack()
     {
-        
+        if(IsDead == true) return;
     }
 
     public virtual void Dead()
-    {
+    {           
+        _anim.SetBool("CanMove",true);
+        _anim.SetBool("IsDead",true);
         IsDead = true;
+        SetAnimationTrigger("Dead");
     }
     
     public virtual void BodyDissolve()
@@ -173,7 +178,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         IsDissolve = true;
         Debug.Log("disolve " + IsDissolve);
 
-        TempObject.Instance.DestroyDelay(this.gameObject,5);
+        TempObject.Instance.DestroyDelay(this.gameObject,3);
     }
 
     public virtual void Sleep()
