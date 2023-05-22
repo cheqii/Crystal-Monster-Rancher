@@ -160,8 +160,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
     public virtual void Damage (int amount, GameObject damageDealer)
     {
-        Radar(damageDealer.transform);
-        Hp -= amount;
+        
     }
 
 

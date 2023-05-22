@@ -26,6 +26,8 @@ public class Dragon : Creature,ICrystallizable,IWander
     [field: SerializeField ]
     public bool isWander { get; set; }
 
+    private bool isEatDragon, isEatPlant, isEatHuman, isEatCrystal;
+
 
 
     // Start is called before the first frame update
@@ -58,19 +60,22 @@ public class Dragon : Creature,ICrystallizable,IWander
         newMat.color = Color;
         renderer.GetComponent<Renderer>().sharedMaterial = newMat;
         
-        
         _ai.velocity = _ai.desiredVelocity;
-
-        Wander();
-
-        //hungry kinesis
+        
+        //hungry kinesis clamp
         _ai.speed = Mathf.Clamp(_ai.speed, 1, MaxSpeed);
-
-
-        FoodChoice();
 
         Flee();
 
+        //if dead dont move
+        if (IsDead)
+        {
+            _ai.velocity = Vector3.zero;
+        }
+        
+        FoodChoice();
+
+        Wander();
     }
 
     public override void Flee()
@@ -84,15 +89,21 @@ public class Dragon : Creature,ICrystallizable,IWander
 
             if (distance < fleeDistance)
             {
-
-                Vector3 dirToPlayer = transform.position - attackTarget.transform.position;
+                _ai.speed = MaxSpeed;
+                Vector3 dirToPlayer = transform.position - attackTarget.transform.position * 2;
                 Vector3 newPos = transform.position + dirToPlayer;
-
+                
+                _anim.SetBool("CanMove",true);
+                SetAnimationTrigger("Run");
                 _ai.SetDestination(newPos);
             }
             else
             {
-                isFlee = false;
+                //need hp regen to work
+        
+                
+                wanderTimer = wanderDelay;
+                SetAnimationTrigger("Idle");
             }
         }
         
@@ -100,22 +111,22 @@ public class Dragon : Creature,ICrystallizable,IWander
 
     private void FoodChoice()
     {
-        FoodChoiceSet(_foodChoice.EatCrystalWhen, _foodChoice.Crystal);
-        FoodChoiceSet(_foodChoice.EatDragonWhen, _foodChoice.Dragon);
-        FoodChoiceSet(_foodChoice.EatHumanWhen, _foodChoice.Human);
-        FoodChoiceSet(_foodChoice.EatPlantWhen, _foodChoice.Plant);
+        isEatCrystal = FoodChoiceSet(_foodChoice.EatCrystalWhen);
+        isEatDragon = FoodChoiceSet(_foodChoice.EatDragonWhen);
+        isEatHuman = FoodChoiceSet(_foodChoice.EatHumanWhen);
+        isEatPlant = FoodChoiceSet(_foodChoice.EatPlantWhen);
     }
     
-    private void FoodChoiceSet(float trigger, bool food)
+    private bool FoodChoiceSet(float trigger)
     {
         //set food choices
-        if (trigger > CurrentStomach)
+        if (trigger > CurrentStomach && trigger != 0)
         {
-            food = true;
+            return true;
         }
         else
         {
-            food = false;
+            return false;
         }
     }
     
@@ -150,35 +161,39 @@ public class Dragon : Creature,ICrystallizable,IWander
         if(NeedFood == false) return;
 
         _ai.isStopped = false;
-
+        
+        
         switch (target.transform.tag)
         {
             case "Player" :
-                if(_foodChoice.Human == false) return;
+                if(isEatHuman == false) return;
                 RunToTarget(target,"Run");
                 break;
             
             case "Dragon" :
                 
-                if(_foodChoice.Dragon == false) return;
+                if(isEatDragon == false) return;
                 RunToTarget(target,"Run");
                 break;
             
             case "Plant" :
-                if(_foodChoice.Plant == false) return;
+                if(isEatPlant == false) return;
                 RunToTarget(target,"Walk");
                 break;
             
             case "Crystal" :
-                if(_foodChoice.Crystal == false) return;
+                if(isEatCrystal == false) return;
                 RunToTarget(target,"Walk");
                 break;
         }
     }
+    
 
     //stop when target is out of radar
     public override void StopWalking(Transform target)
     {
+        if(isFlee) return;
+        
         if(attackTarget == null) return;
         
         if (target.gameObject == attackTarget.gameObject)
@@ -187,7 +202,7 @@ public class Dragon : Creature,ICrystallizable,IWander
             _ai.velocity = Vector3.zero;
             _ai.isStopped = true;
             SetAnimationTrigger("Idle");
-
+            
 
             isWander = true;
         }
@@ -216,6 +231,18 @@ public class Dragon : Creature,ICrystallizable,IWander
     private void Eat()
     {
         
+    }
+
+    public override void Damage(int amount, GameObject damageDealer)
+    {
+        attackTarget = damageDealer.GetComponent<Creature>();
+        Hp -= amount;
+
+        if(isFlee == false)
+        {
+            RunToTarget(damageDealer.transform,"Run");
+        }
+
     }
 
     public void SetIsWander(bool _bool)
@@ -257,11 +284,12 @@ public class Dragon : Creature,ICrystallizable,IWander
             SetIsWander(true);
         }
         
-        
+        if(isFlee) return;
+
         if(isWander == false) return;
         
         //kinesis
-        _ai.speed = Mathf.Lerp(MaxSpeed,0 , CurrentStomach/10);
+        _ai.speed = Mathf.Lerp(MaxSpeed,0 , CurrentStomach / 10);
         
         //wander
         wanderTimer += Time.deltaTime;
