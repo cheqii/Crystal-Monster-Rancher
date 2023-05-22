@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -8,8 +9,10 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool isGrounded;
+    public bool isSprinting;
 
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float sprintSpeed = 10f;
     [SerializeField] private float gravityValue = -9.8f;
     [SerializeField] private float jumpHeight = 1f;
     
@@ -25,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isGrounded = controller.isGrounded;
+        isSprinting = speed == sprintSpeed;
     }
 
     #region -Player Movement-
@@ -47,6 +51,13 @@ public class PlayerMovement : MonoBehaviour
     public void Jump()
     {
         if(isGrounded) playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+        Debug.Log("Jumped");
+    }
+    
+    public void Sprint()
+    {
+        if(isGrounded && !isSprinting) speed = sprintSpeed;
+        else if (isSprinting) speed = 5f;
     }
 
     #endregion
