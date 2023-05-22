@@ -27,6 +27,7 @@ public class Dragon : Creature,ICrystallizable,IWander
     public bool isWander { get; set; }
 
 
+
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -68,6 +69,33 @@ public class Dragon : Creature,ICrystallizable,IWander
 
         FoodChoice();
 
+        Flee();
+
+    }
+
+    public override void Flee()
+    {
+        //flee if hp under20%
+        isFlee = Hp <= MaxHp / 5;
+
+        if (isFlee)
+        {
+            float distance = Vector3.Distance(transform.position, attackTarget.transform.position);
+
+            if (distance < fleeDistance)
+            {
+
+                Vector3 dirToPlayer = transform.position - attackTarget.transform.position;
+                Vector3 newPos = transform.position + dirToPlayer;
+
+                _ai.SetDestination(newPos);
+            }
+            else
+            {
+                isFlee = false;
+            }
+        }
+        
     }
 
     private void FoodChoice()
@@ -105,6 +133,7 @@ public class Dragon : Creature,ICrystallizable,IWander
     public void RunToTarget(Transform target, string animName)
     {
         if (_anim.GetBool("CanMove") == false) return;
+        if(isFlee == true) return;
         
         isWander = false;
 

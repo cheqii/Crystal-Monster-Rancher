@@ -55,12 +55,18 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     
     public Animator _anim { get; protected set; }
     
+    //flee
+    [field: SerializeField ]
+    public bool isFlee { get; set; }
+    [field: SerializeField ]
+    public float fleeDistance { get; set; }
+    
     
     [SerializeField] protected Alleles[] Genetic;
     public Alleles[] GetGenetic()
     { return Genetic; } 
     
-    [HideInInspector]
+ 
     public Creature attackTarget;
 
     
@@ -147,7 +153,11 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     {
         
     }
-    
+
+    public virtual void Flee()
+    {
+    }
+
     public virtual void Damage (int amount, GameObject damageDealer)
     {
         Radar(damageDealer.transform);

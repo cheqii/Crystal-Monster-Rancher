@@ -38,12 +38,14 @@ public class AttackArea : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        var creature = transform.parent.GetComponent<Creature>();
+        
         if (target == null) return;
         
-        if (other.gameObject == target.gameObject)
+        if (other.gameObject == target.gameObject && creature.isFlee == false)
         {
-            transform.parent.GetComponent<Creature>().attackTarget = null;
-            transform.parent.GetComponent<Creature>()._anim.SetBool("CanMove", true);
+            creature.attackTarget = null;
+            creature._anim.SetBool("CanMove", true);
         }    
     }
 }
