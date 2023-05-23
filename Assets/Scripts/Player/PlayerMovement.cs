@@ -75,5 +75,4 @@ public class PlayerMovement : MonoBehaviour
         if (isSprinting) energy.DecreaseEnergy(5 * Time.deltaTime);
         else energy.isUseEnergy = false; // if not sprinting, stop decreasing energy and start recovery
     }
-
 }

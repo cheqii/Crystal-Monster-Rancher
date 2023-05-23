@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,23 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private float xSensitivity = 30f;
     [SerializeField] private float ySensitivity = 30f;
 
+    #region -Inventory Panel-
+
+    public GameObject inventoryPanel;
+    public GameObject storagePanel;
+
+    #endregion
+
+    private void Start()
+    {
+        // Cursor.lockState = CursorLockMode.Locked; // lock cursor to the center of the screen
+        // Cursor.visible = false;
+    }
+
+    private void Update()
+    {
+        CursorControl();
+    }
 
     public void ProcessLook(Vector2 input)
     {
@@ -32,5 +50,19 @@ public class PlayerLook : MonoBehaviour
         
         // rotate player body by mouse input
         transform.Rotate(Vector3.up * (mouseX * xSensitivity * Time.deltaTime));
+    }
+
+    void CursorControl()
+    {
+        if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked; // lock cursor to the center of the screen
+            Cursor.visible = false;
+        }
     }
 }
