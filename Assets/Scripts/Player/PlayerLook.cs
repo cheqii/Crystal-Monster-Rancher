@@ -25,12 +25,6 @@ public class PlayerLook : MonoBehaviour
 
     #endregion
 
-    private void Start()
-    {
-        // Cursor.lockState = CursorLockMode.Locked; // lock cursor to the center of the screen
-        // Cursor.visible = false;
-    }
-
     private void Update()
     {
         CursorControl();
@@ -38,6 +32,8 @@ public class PlayerLook : MonoBehaviour
 
     public void ProcessLook(Vector2 input)
     {
+        if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy) return; // if inventory is open, don't rotate camera
+        
         float mouseX = input.x;
         float mouseY = input.y;
         
@@ -54,14 +50,14 @@ public class PlayerLook : MonoBehaviour
 
     void CursorControl()
     {
-        if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy)
+        if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy) // if inventory is open, unlock cursor
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        else
+        else // if inventory is closed, lock cursor
         {
-            Cursor.lockState = CursorLockMode.Locked; // lock cursor to the center of the screen
+            Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
     }
