@@ -268,13 +268,18 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
                     CurrentStomach -= MaxStomach / 5;
                 }
 
-                //lose 20% of food
+                //lose 1% of food
                 CurrentStomach -= MaxStomach / 100;
                 
                 if(CurrentStomach <= 0)
                 {
                     CurrentStomach = 0;
                     Hp -= MaxHp / 100;
+                }
+                else
+                {
+                    //heal if have food
+                    Hp += MaxHp / 100;
                 }
                 
                 

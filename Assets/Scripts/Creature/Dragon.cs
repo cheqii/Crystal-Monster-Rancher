@@ -53,6 +53,10 @@ public class Dragon : Creature,ICrystallizable,IWander
     
     void Update()
     {
+        //if not playing dont run
+        if (!Application.isPlaying)  return;
+        
+        
         base.Update();
         
         //create new mat (fix later)
@@ -100,8 +104,8 @@ public class Dragon : Creature,ICrystallizable,IWander
             else
             {
                 //need hp regen to work
-        
-                
+
+                isWander = true;
                 wanderTimer = wanderDelay;
                 SetAnimationTrigger("Idle");
             }
