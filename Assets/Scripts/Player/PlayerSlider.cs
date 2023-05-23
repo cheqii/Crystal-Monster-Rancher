@@ -1,21 +1,41 @@
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerSlider : MonoBehaviour
+public class PlayerSlider : Singleton<PlayerSlider>
 {
     #region -Declared Variables-
 
+    private bool isTakeDamage;
+    private bool isRecovery;
+    public bool isUseEnergy;
+    public bool isRecoveredE;
+    
     [Header("Health")]
-    [SerializeField] private int health;
-    [SerializeField] private int currentHealth;
+    [SerializeField] private float health;
+    [SerializeField] private float currentHealth;
+    public float CurrentHealth
+    {
+        get => currentHealth;
+        set => currentHealth = value;
+    }
+    
     [SerializeField] private Slider hpSlider;
 
     [Header("Energy")]
-    [SerializeField] private int energy;
-    [SerializeField] private int currentEnergy;
+    [SerializeField] private float energy;
+    [SerializeField] private float currentEnergy;
+    public float CurrentEnergy
+    {
+        get => currentEnergy;
+        set => currentEnergy = value;
+    }
+    
     [SerializeField] private Slider energySlider;
-
+    
+    
     #endregion
 
     
@@ -37,44 +57,74 @@ public class PlayerSlider : MonoBehaviour
     }
     void Update()
     {
-        StartCoroutine(LerpSlider(hpSlider, currentHealth)); // hp slider lerp
-        StartCoroutine(LerpSlider(energySlider, currentEnergy)); // energy slider lerp
         
-        StartCoroutine(Recovery(energySlider, currentEnergy, 10)); // energy recovery
+    }
+
+    private void FixedUpdate()
+    {
+        StartCoroutine(LerpHealth()); // hp slider lerp
+        if(isUseEnergy) StartCoroutine(LerpEnergy()); // energy slider lerp
+        
+        if (isRecoveredE && !isUseEnergy) StartCoroutine(LerpEnergyRecovery()); // energy recovery lerp
     }
 
     #endregion
 
-    IEnumerator LerpSlider(Slider slider, int currentValue)
+    
+    #region -Lerp Functions-
+
+    IEnumerator LerpHealth()
     {
-        slider.value = Mathf.Lerp(slider.value, currentValue, Time.deltaTime);
+        hpSlider.value = Mathf.Lerp(hpSlider.value, currentHealth, Time.deltaTime);
         yield return new WaitForSeconds(0.01f);
     }
     
-    public void DecreaseHp(int value)
+    IEnumerator LerpEnergy()
     {
-        if (hpSlider.value <= 0 && currentHealth <= 0) return;
+        energySlider.value = Mathf.Lerp(energySlider.value, currentEnergy, Time.deltaTime);
+        yield return new WaitForSeconds(0.01f);
+    }
+    
+    IEnumerator LerpEnergyRecovery()
+    {
+        // make recovery value lerp to current value in every 5 seconds
+        if (isUseEnergy) isRecoveredE = false;
+        yield return new WaitForSeconds(5f);
+        RecoveryEnergy();
+        energySlider.value = Mathf.Lerp(energySlider.value, currentEnergy, Time.deltaTime);
+        if (currentEnergy >= energySlider.maxValue)
+        {
+            currentEnergy = energy;
+            isRecoveredE = false;
+        }
+    }
+
+    #endregion
+
+    public void DecreaseHp(float value)
+    {
+        if (hpSlider.value <= 0 || currentHealth <= 0) return;
         hpSlider.value = currentHealth;
         currentHealth -= value;
         
+        isTakeDamage = true;
         Debug.Log("Player hp : " + currentHealth);
     }
     
-    public void DecreaseEnergy(int value)
+    public void DecreaseEnergy(float value)
     {
-        if (energySlider.value <= 0 && currentEnergy <= 0) return;
+        if (energySlider.value <= 0 || currentEnergy <= 0) return;
         energySlider.value = currentEnergy;
         currentEnergy -= value;
         
-        Debug.Log("Player energy : " + currentEnergy);
+        isUseEnergy = true;
+        isRecoveredE = true;
     }
 
-    IEnumerator Recovery(Slider slider, int currentValue, int recoveryValue)
+    void RecoveryEnergy()
     {
-        yield return new WaitForSeconds(5f);
-        slider.value = currentValue;
-        currentValue += recoveryValue;
-        slider.value = Mathf.Lerp(slider.value, currentValue, Time.deltaTime);
-        
+        if (currentEnergy >= energy || isUseEnergy) return;
+        energySlider.value = currentEnergy;
+        currentEnergy += 1;
     }
 }

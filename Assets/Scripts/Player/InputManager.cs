@@ -30,7 +30,7 @@ public class InputManager : MonoBehaviour
     }
     
     void FixedUpdate()
-    {
+    { 
         _playerMovement.ProcessMove(_onFoot.Movement.ReadValue<Vector2>());
     }
 

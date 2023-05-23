@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float sprintSpeed = 10f;
     [SerializeField] private float gravityValue = -9.8f;
     [SerializeField] private float jumpHeight = 1f;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = controller.isGrounded;
         isSprinting = speed == sprintSpeed;
+        
+        DecreaseEnergyBySprint();
     }
 
     #region -Player Movement-
@@ -47,15 +49,31 @@ public class PlayerMovement : MonoBehaviour
     public void Jump()
     {
         if(isGrounded) playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-        Debug.Log("Jumped");
     }
     
     public void Sprint()
     {
+        var energy = PlayerSlider.Instance;
+        if (energy.CurrentEnergy <= 0) // if energy is 0, stop sprinting
+        {
+            speed = 5f;
+            isSprinting = false;
+            energy.isUseEnergy = false;
+            return;
+        }
+        
+        // if pressing shift and not sprinting, start sprinting
         if(isGrounded && !isSprinting) speed = sprintSpeed;
         else if (isSprinting) speed = 5f;
     }
 
     #endregion
+
+    void DecreaseEnergyBySprint()
+    {
+        var energy = PlayerSlider.Instance;
+        if (isSprinting) energy.DecreaseEnergy(5 * Time.deltaTime);
+        else energy.isUseEnergy = false; // if not sprinting, stop decreasing energy and start recovery
+    }
 
 }
