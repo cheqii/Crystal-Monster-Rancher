@@ -58,17 +58,17 @@ public class Dragon : Creature,ICrystallizable,IWander
     
     void Update()
     {
-        //if not playing dont run
-        if (!Application.isPlaying)  return;
-        
-        
-        base.Update();
-        
         //create new mat (fix later)
         Material newMat = new Material(renderer.GetComponent<Renderer>().sharedMaterial);
         newMat.color = Color;
         renderer.GetComponent<Renderer>().sharedMaterial = newMat;
         
+        //if not playing dont run
+        if (!Application.isPlaying)  return;
+        
+        
+        base.Update();
+
         _ai.velocity = _ai.desiredVelocity;
         
         //hungry kinesis clamp
