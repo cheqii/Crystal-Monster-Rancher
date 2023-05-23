@@ -14,9 +14,6 @@ public class Dragon : Creature,ICrystallizable,IWander
     [SerializeField, Header("Color Renderer")] private GameObject renderer;
     private NavMeshAgent _ai;
     private AttackArea _attackArea;
-    
-    
-    private bool isEatHuman, isEatDragon, isEatPlant, isEatCrystal;
     private IWander _wanderImplementation;
 
 
@@ -29,19 +26,21 @@ public class Dragon : Creature,ICrystallizable,IWander
     [field: SerializeField ]
     public bool isWander { get; set; }
 
+    [Header("Attack Damage")]
+    [SerializeField] private int minDamage;
+    [SerializeField] private int maxDamage;
+
+
+    private bool isEatDragon, isEatPlant, isEatHuman, isEatCrystal;
+
+
 
     // Start is called before the first frame update
     void OnEnable()
     {
         base.OnEnable();
         
-        //set food choices
-        isEatHuman = _foodChoice.Human;
-        isEatDragon = _foodChoice.Dragon;
-        isEatPlant = _foodChoice.Plant;
-        isEatCrystal = _foodChoice.Crystal;
 
-        
         _attackArea = GetComponentInChildren<AttackArea>();
         Specie = Species.Dragon;
         _ai = GetComponent<NavMeshAgent>();
@@ -59,34 +58,102 @@ public class Dragon : Creature,ICrystallizable,IWander
     
     void Update()
     {
-        base.Update();
-        
         //create new mat (fix later)
         Material newMat = new Material(renderer.GetComponent<Renderer>().sharedMaterial);
         newMat.color = Color;
         renderer.GetComponent<Renderer>().sharedMaterial = newMat;
         
+        //if not playing dont run
+        if (!Application.isPlaying)  return;
         
+        
+        base.Update();
+
         _ai.velocity = _ai.desiredVelocity;
+        
+        //hungry kinesis clamp
+        _ai.speed = Mathf.Clamp(_ai.speed, 1, MaxSpeed);
+
+        Flee();
+
+        //if dead dont move
+        if (IsDead)
+        {
+            _ai.velocity = Vector3.zero;
+        }
+        
+        FoodChoice();
 
         Wander();
-
-        //hungry kinesis
-        _ai.speed = Mathf.Clamp(_ai.speed, 1, MaxSpeed);
     }
 
+    public override void Flee()
+    {
+        //flee if hp under20%
+        isFlee = Hp <= MaxHp / 5;
 
+        if (isFlee)
+        {
+            float distance = Vector3.Distance(transform.position, attackTarget.transform.position);
+
+            if (distance < fleeDistance)
+            {
+                _ai.speed = MaxSpeed;
+                Vector3 dirToPlayer = transform.position - attackTarget.transform.position * 2;
+                Vector3 newPos = transform.position + dirToPlayer;
+                
+                _anim.SetBool("CanMove",true);
+                SetAnimationTrigger("Run");
+                _ai.SetDestination(newPos);
+            }
+            else
+            {
+                //need hp regen to work
+
+                isWander = true;
+                wanderTimer = wanderDelay;
+                SetAnimationTrigger("Idle");
+            }
+        }
+        
+    }
+
+    private void FoodChoice()
+    {
+        isEatCrystal = FoodChoiceSet(_foodChoice.EatCrystalWhen);
+        isEatDragon = FoodChoiceSet(_foodChoice.EatDragonWhen);
+        isEatHuman = FoodChoiceSet(_foodChoice.EatHumanWhen);
+        isEatPlant = FoodChoiceSet(_foodChoice.EatPlantWhen);
+    }
+    
+    private bool FoodChoiceSet(float trigger)
+    {
+        //set food choices
+        if (trigger > CurrentStomach && trigger != 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
 
 
     //only play animation (damage deal is on deal damage method)
     public override void Attack()
     {
+        //if dead not attack
+        base.Attack();
+        
         SetAnimationTrigger("Attack");
     }
 
     public void RunToTarget(Transform target, string animName)
     {
         if (_anim.GetBool("CanMove") == false) return;
+        if(isFlee == true) return;
         
         isWander = false;
 
@@ -103,7 +170,8 @@ public class Dragon : Creature,ICrystallizable,IWander
         if(NeedFood == false) return;
 
         _ai.isStopped = false;
-
+        
+        
         switch (target.transform.tag)
         {
             case "Player" :
@@ -128,10 +196,13 @@ public class Dragon : Creature,ICrystallizable,IWander
                 break;
         }
     }
+    
 
     //stop when target is out of radar
     public override void StopWalking(Transform target)
     {
+        if(isFlee) return;
+        
         if(attackTarget == null) return;
         
         if (target.gameObject == attackTarget.gameObject)
@@ -140,13 +211,13 @@ public class Dragon : Creature,ICrystallizable,IWander
             _ai.velocity = Vector3.zero;
             _ai.isStopped = true;
             SetAnimationTrigger("Idle");
-
+            
 
             isWander = true;
         }
     }
-    
-    
+
+    [SerializeField] private DynamicTextData _dynamicTextData;
     //use animation event
     public void DealDamage ()
     {
@@ -156,8 +227,11 @@ public class Dragon : Creature,ICrystallizable,IWander
             {
                 CurrentStomach = MaxStomach;
             }
-            attackTarget.Damage(20);
-
+            else
+            {
+                attackTarget.Damage(Random.Range(minDamage,maxDamage),this.gameObject);
+                DynamicTextManager.CreateText(attackTarget.transform.position + Vector3.up*2,Random.Range(minDamage,maxDamage) + "",_dynamicTextData);
+            }
         }
     }
     
@@ -169,6 +243,18 @@ public class Dragon : Creature,ICrystallizable,IWander
     private void Eat()
     {
         
+    }
+
+    public override void Damage(int amount, GameObject damageDealer)
+    {
+        attackTarget = damageDealer.GetComponent<Creature>();
+        Hp -= amount;
+
+        if(isFlee == false)
+        {
+            RunToTarget(damageDealer.transform,"Run");
+        }
+
     }
 
     public void SetIsWander(bool _bool)
@@ -210,11 +296,12 @@ public class Dragon : Creature,ICrystallizable,IWander
             SetIsWander(true);
         }
         
-        
+        if(isFlee) return;
+
         if(isWander == false) return;
         
         //kinesis
-        _ai.speed = Mathf.Lerp(MaxSpeed,0 , CurrentStomach/10);
+        _ai.speed = Mathf.Lerp(MaxSpeed,0 , CurrentStomach / 10);
         
         //wander
         wanderTimer += Time.deltaTime;

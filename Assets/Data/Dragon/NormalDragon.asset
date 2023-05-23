@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3462f32bc0c79b7499c7d6f76bcc25bc, type: 3}
   m_Name: NormalDragon
   m_EditorClassIdentifier: 
-  Human: 1
-  Dragon: 0
-  Plant: 0
-  Crystal: 0
+  EatHumanWhen: 0.67
+  EatDragonWhen: 0.61
+  EatPlantWhen: 0
+  EatCrystalWhen: 0

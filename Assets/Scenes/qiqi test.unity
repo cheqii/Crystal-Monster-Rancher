@@ -6671,7 +6671,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500883542}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.51, y: -0.61, z: 4.11}
+  m_LocalPosition: {x: 2.71, y: -0.61, z: 4.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8924,6 +8924,21 @@ PrefabInstance:
       propertyPath: m_FOVAxisMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2530388759006988856, guid: bdb8b7d146c17e04c88d7b01613439fa,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2530388759006988856, guid: bdb8b7d146c17e04c88d7b01613439fa,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800971787682381872, guid: bdb8b7d146c17e04c88d7b01613439fa,
+        type: 3}
+      propertyPath: gunHold
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2800971787682381873, guid: bdb8b7d146c17e04c88d7b01613439fa,
         type: 3}
       propertyPath: gunHold
@@ -8934,10 +8949,15 @@ PrefabInstance:
       propertyPath: ammoText
       value: 
       objectReference: {fileID: 1642981125}
+    - target: {fileID: 2800971787682381873, guid: bdb8b7d146c17e04c88d7b01613439fa,
+        type: 3}
+      propertyPath: distance
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 2800971787682381879, guid: bdb8b7d146c17e04c88d7b01613439fa,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4226817551850422503, guid: bdb8b7d146c17e04c88d7b01613439fa,
         type: 3}

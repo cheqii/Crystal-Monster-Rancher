@@ -55,21 +55,26 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     
     public Animator _anim { get; protected set; }
     
+    //flee
+    [field: SerializeField ]
+    public bool isFlee { get; set; }
+    [field: SerializeField ]
+    public float fleeDistance { get; set; }
+    
     
     [SerializeField] protected Alleles[] Genetic;
     public Alleles[] GetGenetic()
     { return Genetic; } 
     
-    [HideInInspector]
+ 
     public Creature attackTarget;
 
     
 
     //IGrowable
-    [field: SerializeField,Header("Food") , Range(0,10)]
     public float MaxStomach { get; set; }
     
-    [field: SerializeField , Range(0,10)]
+    [field: SerializeField,Header("Food") , Range(0,10)]
     public float CurrentStomach { get; set; }
     [field: SerializeField , Range(0,10)]
     public float SizeLimit { get; set; }
@@ -88,6 +93,8 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     {
         IsDead = false;
         IsDissolve = false;
+
+        MaxStomach = 10;
     }
 
     // Start is called before the first frame update
@@ -146,10 +153,14 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     {
         
     }
-    
-    public virtual void Damage (int amount)
+
+    public virtual void Flee()
     {
-        Hp -= amount;
+    }
+
+    public virtual void Damage (int amount, GameObject damageDealer)
+    {
+        
     }
 
 
@@ -160,12 +171,15 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
     public virtual void Attack()
     {
-        
+        if(IsDead == true) return;
     }
 
     public virtual void Dead()
-    {
+    {           
+        _anim.SetBool("CanMove",true);
+        _anim.SetBool("IsDead",true);
         IsDead = true;
+        SetAnimationTrigger("Dead");
     }
     
     public virtual void BodyDissolve()
@@ -173,7 +187,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         IsDissolve = true;
         Debug.Log("disolve " + IsDissolve);
 
-        TempObject.Instance.DestroyDelay(this.gameObject,5);
+        TempObject.Instance.DestroyDelay(this.gameObject,3);
     }
 
     public virtual void Sleep()
@@ -254,13 +268,18 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
                     CurrentStomach -= MaxStomach / 5;
                 }
 
-                //lose 20% of food
+                //lose 1% of food
                 CurrentStomach -= MaxStomach / 100;
                 
                 if(CurrentStomach <= 0)
                 {
                     CurrentStomach = 0;
                     Hp -= MaxHp / 100;
+                }
+                else
+                {
+                    //heal if have food
+                    Hp += MaxHp / 100;
                 }
                 
                 
