@@ -26,6 +26,11 @@ public class Dragon : Creature,ICrystallizable,IWander
     [field: SerializeField ]
     public bool isWander { get; set; }
 
+    [Header("Attack Damage")]
+    [SerializeField] private int minDamage;
+    [SerializeField] private int maxDamage;
+
+
     private bool isEatDragon, isEatPlant, isEatHuman, isEatCrystal;
 
 
@@ -211,8 +216,8 @@ public class Dragon : Creature,ICrystallizable,IWander
             isWander = true;
         }
     }
-    
-    
+
+    [SerializeField] private DynamicTextData _dynamicTextData;
     //use animation event
     public void DealDamage ()
     {
@@ -222,8 +227,11 @@ public class Dragon : Creature,ICrystallizable,IWander
             {
                 CurrentStomach = MaxStomach;
             }
-            attackTarget.Damage(20,this.gameObject);
-
+            else
+            {
+                attackTarget.Damage(Random.Range(minDamage,maxDamage),this.gameObject);
+                DynamicTextManager.CreateText(attackTarget.transform.position + Vector3.up*2,Random.Range(minDamage,maxDamage) + "",_dynamicTextData);
+            }
         }
     }
     
