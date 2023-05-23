@@ -20,15 +20,17 @@ public class InputManager : MonoBehaviour
         _playerMovement = GetComponent<PlayerMovement>();
         _playerLook = GetComponent<PlayerLook>();
         
-        // player sprint function (press shift to sprint and press again to stop sprinting)
+        // player called sprint function (press shift to sprint and press again to stop sprinting)
         _onFoot.Sprint.performed += ctx => _playerMovement.Sprint();
-
+        // added this for the sprint button is released, call back (ctx) the sprint function from PlayerMovement Script
+        _onFoot.Sprint.canceled += ctx => _playerMovement.Sprint();
+        
         // anytime that onFoot.jump is performed, call back (ctx) the jump function from PlayerMovement Script
         _onFoot.Jump.performed += ctx => _playerMovement.Jump();
     }
     
     void FixedUpdate()
-    {
+    { 
         _playerMovement.ProcessMove(_onFoot.Movement.ReadValue<Vector2>());
     }
 
