@@ -37,9 +37,9 @@ Material:
     m_Floats:
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Speed: 0.13
+    - _Speed: 0.5
     - _Trans: 0
-    - _intencity: 4.55
+    - _intencity: 3.18
     m_Colors:
     - _Color: {r: 0.5849959, g: 0.35500178, b: 0.6792453, a: 1}
     - _GateColor: {r: 0.5927504, g: 0, b: 0.69886, a: 0}
