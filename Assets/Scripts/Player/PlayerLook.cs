@@ -25,6 +25,8 @@ public class PlayerLook : MonoBehaviour
 
     #endregion
 
+    public GameObject crosshair;
+
     private void Update()
     {
         CursorControl();
@@ -52,11 +54,13 @@ public class PlayerLook : MonoBehaviour
     {
         if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy) // if inventory is open, unlock cursor
         {
+            crosshair.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
         else // if inventory is closed, lock cursor
         {
+            crosshair.SetActive(true);
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }

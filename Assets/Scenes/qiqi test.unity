@@ -7688,6 +7688,7 @@ MonoBehaviour:
   ySensitivity: 30
   inventoryPanel: {fileID: 1329253194}
   storagePanel: {fileID: 383622425}
+  crosshair: {fileID: 406237376}
 --- !u!114 &1789340055
 MonoBehaviour:
   m_ObjectHideFlags: 0
