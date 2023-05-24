@@ -13,6 +13,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         Plant
     }
 
+    [SerializeField, Header("Color Material")] public Renderer renderer;
 
     [field: SerializeField]
     public float MaxSpeed { get; protected set; }

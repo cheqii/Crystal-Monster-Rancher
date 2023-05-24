@@ -12,8 +12,7 @@ public class Dragon : Creature,ICrystallizable,IWander
     [SerializeField] private FoodChoice _foodChoice;
 
     [Range(0f,30f)]
-    [SerializeField] private float moveSpeed;
-    [SerializeField, Header("Color Material")] private Renderer renderer;
+    [SerializeField] private float moveSpeed; 
     private NavMeshAgent _ai;
     private AttackArea _attackArea;
     private IWander _wanderImplementation;
@@ -353,7 +352,8 @@ public class Dragon : Creature,ICrystallizable,IWander
     {
         attackTarget = damageDealer.GetComponent<Creature>();
         Hp -= amount;
-
+        
+        ColorBlink.Instance.ObjectColorBlink(renderer,Color.red,1);
         
 
         if(isFlee == false)
