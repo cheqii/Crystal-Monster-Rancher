@@ -160,7 +160,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
     public virtual void Damage (int amount, GameObject damageDealer)
     {
-        
+        Hp -= amount;
     }
 
 
@@ -175,11 +175,8 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     }
 
     public virtual void Dead()
-    {           
-        _anim.SetBool("CanMove",true);
-        _anim.SetBool("IsDead",true);
+    {
         IsDead = true;
-        SetAnimationTrigger("Dead");
     }
     
     public virtual void BodyDissolve()

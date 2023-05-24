@@ -342,7 +342,10 @@ public class Dragon : Creature,ICrystallizable,IWander
 
     public override void Dead()
     {
-        base.Dead();
+        _anim.SetBool("CanMove",true);
+        _anim.SetBool("IsDead",true);
+        IsDead = true;
+        SetAnimationTrigger("Dead");
         _ai.isStopped = true;
     }
 
