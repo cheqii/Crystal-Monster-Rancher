@@ -113,7 +113,7 @@ public class Dragon : Creature,ICrystallizable,IWander
         //flee if hp under20%
         isFlee = Hp <= MaxHp / 5;
 
-        if (isFlee && _ai.isStopped != true)
+        if (isFlee && _ai.isStopped != true && attackTarget != null)
         {
             float distance = Vector3.Distance(transform.GetChild(0).position, attackTarget.transform.GetChild(0).position);
 
@@ -264,7 +264,7 @@ public class Dragon : Creature,ICrystallizable,IWander
                     //particle
                     var attackPar = ParticleManager.Do.SpawnParticle(
                         TempObject.Instance.BizumAttackParticle,
-                        attackTarget.transform.GetChild(0).position,
+                        attackTarget.transform.GetChild(1).position,
                         3
                     );
                     
@@ -285,7 +285,7 @@ public class Dragon : Creature,ICrystallizable,IWander
                         //particle
                         var attackPar = ParticleManager.Do.SpawnParticle(
                             TempObject.Instance.BizumAttackParticle,
-                            attackTarget.transform.GetChild(0).position,
+                            attackTarget.transform.GetChild(1).position,
                             3
                         );
                     
@@ -309,7 +309,7 @@ public class Dragon : Creature,ICrystallizable,IWander
         //particle
         var attackPar = ParticleManager.Do.SpawnParticle(
             TempObject.Instance.BizumCritParticle,
-            attackTarget.transform.GetChild(0).position,
+            attackTarget.transform.GetChild(1).position,
             3
         );
                     
