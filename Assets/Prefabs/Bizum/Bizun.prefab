@@ -1566,6 +1566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a014b539c3071418ddc23d97a0d89e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 8770262296889107577}
   <MaxSpeed>k__BackingField: 5
   <Specie>k__BackingField: 0
   <Sex>k__BackingField: 0
@@ -1589,7 +1590,6 @@ MonoBehaviour:
   <FoodIngestDelay>k__BackingField: 5
   _foodChoice: {fileID: 11400000, guid: 5ad9c332e3dd819419d57173cde2bb05, type: 2}
   moveSpeed: 7.1
-  renderer: {fileID: 8770262296889107577}
   <wanderRadius>k__BackingField: 50
   <wanderTimer>k__BackingField: 11.5
   <wanderDelay>k__BackingField: 11.5
@@ -2189,7 +2189,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.48, y: 3.1460385, z: 1.31}
+  m_Size: {x: 0.58, y: 3.1460385, z: 1.31}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8770262298302092520
 MonoBehaviour:
