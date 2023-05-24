@@ -17,8 +17,13 @@ MonoBehaviour:
   - {r: 1, g: 0.93247044, b: 0, a: 1}
   - {r: 1, g: 0.7870383, b: 0, a: 1}
   sizes:
-  - 1.1
-  - 1.2
+  - 1.5
+  - 2
+  font: {fileID: 0}
+  bold: 0
+  italic: 0
+  underline: 0
+  strikethrough: 0
   lifetime: 2
   numberOfColourAlternations: 10
   numberOfSizeAlternations: 10

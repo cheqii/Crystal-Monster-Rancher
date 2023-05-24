@@ -119,7 +119,7 @@ public class Dragon : Creature,ICrystallizable,IWander
 
             if (distance < fleeDistance)
             {
-                _ai.speed = MaxSpeed;
+                _ai.speed = MaxSpeed * 0.8f;
                 Vector3 dirToPlayer = transform.GetChild(0).position - attackTarget.transform.GetChild(0).position * 2;
                 Vector3 newPos = transform.GetChild(0).position + dirToPlayer;
                 
@@ -178,7 +178,7 @@ public class Dragon : Creature,ICrystallizable,IWander
         
         isWander = false;
 
-        _ai.SetDestination(target.transform.GetChild(0).position);
+        _ai.SetDestination(target.GetChild(0).position);
         attackTarget = target.GetComponent<Creature>();
         _attackArea.target = target;
         SetAnimationTrigger(animName);
@@ -238,7 +238,6 @@ public class Dragon : Creature,ICrystallizable,IWander
         }
     }
 
-    [SerializeField] private DynamicTextData _dynamicTextData;
     //use animation event
     public void DealDamage ()
     {
@@ -250,8 +249,27 @@ public class Dragon : Creature,ICrystallizable,IWander
             }
             else
             {
-                attackTarget.Damage(Random.Range(minDamage,maxDamage),this.gameObject);
-                DynamicTextManager.CreateText(attackTarget.transform.position + Vector3.up*2,Random.Range(minDamage,maxDamage) + "",_dynamicTextData);
+                var damage = Random.Range(minDamage, maxDamage);
+                
+                //not crit
+                if (Random.Range(1, 11) > 1)
+                {
+                    attackTarget.Damage(damage,this.gameObject);
+                    DynamicTextManager.CreateText(
+                        attackTarget.transform.position + Vector3.up*2,
+                        damage + "",
+                        TempObject.Instance.DamageTextData);
+                }
+                //crit damage x2
+                else
+                {
+                    attackTarget.Damage(damage*2,this.gameObject);
+                    DynamicTextManager.CreateText(
+                        attackTarget.transform.position + Vector3.up*2,
+                        "Crit! " + (maxDamage * Random.Range(1,2)),
+                        TempObject.Instance.CriteTextData);
+                }
+                
             }
         }
     }
@@ -277,6 +295,9 @@ public class Dragon : Creature,ICrystallizable,IWander
         attackTarget = damageDealer.GetComponent<Creature>();
         Hp -= amount;
 
+        //knock back
+        _ai.velocity += Vector3.back * 100;
+
         if(isFlee == false)
         {
             RunToTarget(damageDealer.transform,"Run");
@@ -297,16 +318,18 @@ public class Dragon : Creature,ICrystallizable,IWander
 
     public void Crystallize()
     {
+        
         var crystal =  Instantiate(TempObject.Instance.SoulCrystal, transform.position, Quaternion.identity);
-        var crystalParticle =  Instantiate(TempObject.Instance.CrystalParticle, transform.position, Quaternion.identity);
+        var crystalParticle = ParticleManager.Do.SpawnParticle(
+            TempObject.Instance.CrystalParticle,
+            transform.GetChild(0).position,
+            2);
         crystalParticle.transform.SetParent(crystal.transform);
 
         //set crystal size
         crystal.transform.localScale = new Vector3(Size * 10, Size * 10, Size * 10);
         
         var soulCrystal = crystal.GetComponent<SoulCrystal>();
-        
-        TempObject.Instance.DestroyDelay(crystalParticle,2);
 
         soulCrystal.CrystalSetup(Sex,Color,Size,CrystalSleepTime);
         
