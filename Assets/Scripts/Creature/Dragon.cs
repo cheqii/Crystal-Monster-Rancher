@@ -113,15 +113,15 @@ public class Dragon : Creature,ICrystallizable,IWander
         //flee if hp under20%
         isFlee = Hp <= MaxHp / 5;
 
-        if (isFlee)
+        if (isFlee && _ai.isStopped != true)
         {
-            float distance = Vector3.Distance(transform.position, attackTarget.transform.position);
+            float distance = Vector3.Distance(transform.GetChild(0).position, attackTarget.transform.GetChild(0).position);
 
             if (distance < fleeDistance)
             {
                 _ai.speed = MaxSpeed;
-                Vector3 dirToPlayer = transform.position - attackTarget.transform.position * 2;
-                Vector3 newPos = transform.position + dirToPlayer;
+                Vector3 dirToPlayer = transform.GetChild(0).position - attackTarget.transform.GetChild(0).position * 2;
+                Vector3 newPos = transform.GetChild(0).position + dirToPlayer;
                 
                 _anim.SetBool("CanMove",true);
                 SetAnimationTrigger("Run");
@@ -178,7 +178,7 @@ public class Dragon : Creature,ICrystallizable,IWander
         
         isWander = false;
 
-        _ai.SetDestination(target.transform.position);
+        _ai.SetDestination(target.transform.GetChild(0).position);
         attackTarget = target.GetComponent<Creature>();
         _attackArea.target = target;
         SetAnimationTrigger(animName);
@@ -264,6 +264,12 @@ public class Dragon : Creature,ICrystallizable,IWander
     private void Eat()
     {
         
+    }
+
+    public override void Dead()
+    {
+        base.Dead();
+        _ai.isStopped = true;
     }
 
     public override void Damage(int amount, GameObject damageDealer)

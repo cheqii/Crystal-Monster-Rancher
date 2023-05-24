@@ -15,7 +15,7 @@ public class AllelesEditor : Editor
       
       if (GUILayout.Button("Reload Color"))
       {
-         _alleles.Start();
+         _alleles.Setup();
          _alleles.SetEffects();
       }
    }

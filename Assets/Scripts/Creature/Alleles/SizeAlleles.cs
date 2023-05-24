@@ -9,9 +9,9 @@ public class SizeAlleles : Alleles
 
 
 
-    public void Start()
+    public void Setup()
     {
-        base.Start();
+        base.Setup();
 
         if (isPureBreed == true)
         {
@@ -23,6 +23,7 @@ public class SizeAlleles : Alleles
     
     public override void SetEffects()
     {
+        Setup();
         float newMaxSize;
         
         var creature = GetComponent<Creature>();

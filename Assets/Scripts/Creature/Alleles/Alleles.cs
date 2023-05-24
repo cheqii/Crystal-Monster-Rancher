@@ -22,7 +22,7 @@ public class Alleles : MonoBehaviour
     public AllelesType Type;
     
     // Start is called before the first frame update
-    protected void Start()
+    protected void Setup()
     {
         IsPureBlood();
     }
