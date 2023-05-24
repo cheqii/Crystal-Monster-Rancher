@@ -55,6 +55,9 @@ public class Inventory : MonoBehaviour
     public int width;
     [SerializeField]
     public bool stackable;
+
+    [SerializeField] 
+    public bool openInv = false;
     [SerializeField]
     public static bool inventoryOpen;
 
@@ -148,15 +151,21 @@ public class Inventory : MonoBehaviour
 
     public void closeInventory()
     {
+        Debug.Log("closeInv");
+        openInv = false;
         this.gameObject.SetActive(false);
         checkIfAllInventoryClosed();
+        // GameObject.FindGameObjectWithTag("OwnHotbar").SetActive(true);
     }
 
     public void openInventory()
     {
+        openInv = true;
+        Debug.Log("openInv");
         this.gameObject.SetActive(true);
         if (InventoryOpen != null)
             InventoryOpen();
+        // GameObject.FindGameObjectWithTag("OwnHotbar").SetActive(false);
     }
 
     public void checkIfAllInventoryClosed()
@@ -305,8 +314,8 @@ public class Inventory : MonoBehaviour
             height = 5;
             width = 5;
 
-            slotSize = 50;
-            iconSize = 45;
+            slotSize = 90;
+            iconSize = 90;
 
             paddingBetweenX = 5;
             paddingBetweenY = 5;
@@ -320,8 +329,8 @@ public class Inventory : MonoBehaviour
             height = 1;
             width = 9;
 
-            slotSize = 50;
-            iconSize = 45;
+            slotSize = 90;
+            iconSize = 90;
 
             paddingBetweenX = 5;
             paddingBetweenY = 5;
@@ -334,8 +343,8 @@ public class Inventory : MonoBehaviour
         {
             height = 3;
             width = 3;
-            slotSize = 55;
-            iconSize = 45;
+            slotSize = 90;
+            iconSize = 90;
 
             paddingBetweenX = 5;
             paddingBetweenY = 5;
@@ -349,8 +358,8 @@ public class Inventory : MonoBehaviour
             height = 4;
             width = 2;
 
-            slotSize = 50;
-            iconSize = 45;
+            slotSize = 90;
+            iconSize = 90;
 
             paddingBetweenX = 100;
             paddingBetweenY = 20;
@@ -504,6 +513,7 @@ public class Inventory : MonoBehaviour
         SlotGridLayout.cellSize = new Vector2(slotSize, slotSize);
 
         updateItemSize();
+        updateIconSize();
     }
 
     void updateItemSize()
@@ -583,6 +593,7 @@ public class Inventory : MonoBehaviour
 
     public void addItemToInventory(int id)
     {
+        // updateIconSize(90);
         for (int i = 0; i < SlotContainer.transform.childCount; i++)
         {
             if (SlotContainer.transform.GetChild(i).childCount == 0)
@@ -633,7 +644,6 @@ public class Inventory : MonoBehaviour
 
     public void addItemToInventoryStorage(int itemID, int value)
     {
-
         for (int i = 0; i < SlotContainer.transform.childCount; i++)
         {
             if (SlotContainer.transform.GetChild(i).childCount == 0)
@@ -657,6 +667,7 @@ public class Inventory : MonoBehaviour
         }
         stackableSettings();
         updateItemList();
+        updateIconSize();
     }
 
     public void updateIconSize(int iconSize)
@@ -681,8 +692,6 @@ public class Inventory : MonoBehaviour
                 SlotContainer.transform.GetChild(i).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta = new Vector2(iconSize, iconSize);
             }
         }
-        updateItemSize();
-
     }
 
     public void stackableSettings(bool stackable, Vector3 posi)

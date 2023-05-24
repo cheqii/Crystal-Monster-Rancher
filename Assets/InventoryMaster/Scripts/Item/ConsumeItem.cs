@@ -144,9 +144,9 @@ public class ConsumeItem : MonoBehaviour, IPointerDownHandler
                     Item itemFromDup = null;
                     if (duplication != null)
                         itemFromDup = duplication.GetComponent<ItemOnObject>().item;
-
+                    
                     inventory.ConsumeItem(item);
-
+                    
                     item.itemValue--;
                     if (itemFromDup != null)
                     {

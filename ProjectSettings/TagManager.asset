@@ -7,6 +7,20 @@ TagManager:
   - Dragon
   - Crystal
   - Plant
+  - Slot
+  - Canvas
+  - Item
+  - EquipmentSystem
+  - Timer
+  - ItemIcon
+  - DraggingItem
+  - Slots
+  - MainInventory
+  - Tooltip
+  - Panel
+  - CraftSystem
+  - ResultSlot
+  - OwnHotbar
   layers:
   - Default
   - TransparentFX

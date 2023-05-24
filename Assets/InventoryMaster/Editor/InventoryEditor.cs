@@ -154,6 +154,7 @@ public class InventoryEditor : Editor
             inv.adjustInventorySize();
             inv.updatePadding(slotsPaddingBetweenX.intValue, slotsPaddingBetweenY.intValue);
             inv.updateSlotSize(inventorySlotSize.intValue);
+            inv.updateIconSize(90);
             inv.stackableSettings();
         }
 
@@ -170,7 +171,7 @@ public class InventoryEditor : Editor
         EditorGUILayout.IntSlider(inventoryIconSize, 20, 100, new GUIContent("Icon Size"));                                                                                        //intfield for the slotsize
         if (EditorGUI.EndChangeCheck())                                                                                                        //if intfield got changed
         {
-            inv.updateIconSize(inventoryIconSize.intValue);
+            inv.updateIconSize(90);
         }
 
         GUILayout.BeginVertical("Box");
@@ -202,6 +203,7 @@ public class InventoryEditor : Editor
 
     void addItemGUI()                                                                                                       //add a item to the inventory through the inspector
     {
+        inv.updateIconSize(90);
         if (!inv.characterSystem())
         {
             GUILayout.Label("Add an item:");
@@ -217,7 +219,7 @@ public class InventoryEditor : Editor
             itemValue = EditorGUILayout.IntField("", itemValue, GUILayout.Width(40));
             GUI.color = Color.green;                                                                                            //set the color of all following guielements to green
             if (GUILayout.Button("Add Item"))                                                                                   //creating button with name "AddItem"
-            {                
+            {
                 inv.addItemToInventory(itemID, itemValue);                                                                      //and set the settings for possible stackedItems
                 inv.stackableSettings();
             }
