@@ -251,26 +251,82 @@ public class Dragon : Creature,ICrystallizable,IWander
             {
                 var damage = Random.Range(minDamage, maxDamage);
                 
-                //not crit
+                //not special
                 if (Random.Range(1, 11) > 1)
                 {
                     attackTarget.Damage(damage,this.gameObject);
+                    
                     DynamicTextManager.CreateText(
                         attackTarget.transform.position + Vector3.up*2,
                         damage + "",
                         TempObject.Instance.DamageTextData);
+                    
+                    //particle
+                    var attackPar = ParticleManager.Do.SpawnParticle(
+                        TempObject.Instance.BizumAttackParticle,
+                        attackTarget.transform.GetChild(0).position,
+                        3
+                    );
+                    
+                    attackPar.transform.SetParent(attackTarget.transform);
                 }
-                //crit damage x2
+                //special attack
                 else
                 {
-                    attackTarget.Damage(damage*2,this.gameObject);
-                    DynamicTextManager.CreateText(
-                        attackTarget.transform.position + Vector3.up*2,
-                        "Crit! " + (maxDamage * Random.Range(1,2)),
-                        TempObject.Instance.CriteTextData);
+                    //crit
+                    if (Random.Range(1, 3) == 1)
+                    {
+                        attackTarget.Damage(damage*2,this.gameObject);
+                        DynamicTextManager.CreateText(
+                            attackTarget.transform.position + Vector3.up*2,
+                            "Crit! " + (maxDamage * Random.Range(1,2)),
+                            TempObject.Instance.CriteTextData);
+                    
+                        //particle
+                        var attackPar = ParticleManager.Do.SpawnParticle(
+                            TempObject.Instance.BizumAttackParticle,
+                            attackTarget.transform.GetChild(0).position,
+                            3
+                        );
+                    
+                        attackPar.transform.SetParent(attackTarget.transform);
+                    }
+                    else
+                    {
+                        //skill
+                        StartCoroutine(UseSpecialAttack(damage));
+                    }
                 }
                 
             }
+        }
+    }
+
+    public IEnumerator UseSpecialAttack(int damage)
+    {
+        var attackTimes = (damage * 2) / 10;
+        
+        //particle
+        var attackPar = ParticleManager.Do.SpawnParticle(
+            TempObject.Instance.BizumCritParticle,
+            attackTarget.transform.GetChild(0).position,
+            3
+        );
+                    
+        attackPar.transform.SetParent(attackTarget.transform);
+        
+        
+        
+        for (int i = 0; i < attackTimes; i++)
+        {
+            attackTarget.Damage(damage*2/10 + Random.Range(1,10),this.gameObject);
+            DynamicTextManager.CreateText(
+                attackTarget.transform.position + Vector3.up*2,
+                "" + (damage*2/10) + Random.Range(1,10),
+                TempObject.Instance.EffectDamageTextData);
+            
+            
+            yield return new WaitForSeconds(0.1f);
         }
     }
     
@@ -295,8 +351,7 @@ public class Dragon : Creature,ICrystallizable,IWander
         attackTarget = damageDealer.GetComponent<Creature>();
         Hp -= amount;
 
-        //knock back
-        _ai.velocity += Vector3.back * 100;
+        
 
         if(isFlee == false)
         {

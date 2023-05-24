@@ -9,6 +9,11 @@ public class TempObject : MonoBehaviour
 
     public DynamicTextData DamageTextData;
     public DynamicTextData CriteTextData;
+    public DynamicTextData EffectDamageTextData;
+
+    
+    public GameObject BizumAttackParticle;
+    public GameObject BizumCritParticle;
 
 
     
