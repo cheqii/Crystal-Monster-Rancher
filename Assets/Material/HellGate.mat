@@ -39,9 +39,9 @@ Material:
     - _QueueOffset: 0
     - _Speed: 0.5
     - _Trans: 0
-    - _intencity: 3.18
+    - _intencity: 1.75
     m_Colors:
-    - _Color: {r: 0.5849959, g: 0.35500178, b: 0.6792453, a: 1}
+    - _Color: {r: 0.5849959, g: 0.35500175, b: 0.6792453, a: 1}
     - _GateColor: {r: 0.69803923, g: 0.6271149, b: 0, a: 0.27058825}
   m_BuildTextureStacks: []
 --- !u!114 &3555113948401310097
