@@ -23,10 +23,9 @@ public class OwnHotbar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DisableHotbarSlot();
     }
 
-    void DisableHotbarSlot()
+    public void DisableHotbarSlot()
     {
         if(!barActive)
         {
