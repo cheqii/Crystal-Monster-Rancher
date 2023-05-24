@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 
 [ExecuteInEditMode]
@@ -11,7 +13,7 @@ public class Dragon : Creature,ICrystallizable,IWander
 
     [Range(0f,30f)]
     [SerializeField] private float moveSpeed;
-    [SerializeField, Header("Color Renderer")] private GameObject renderer;
+    [SerializeField, Header("Color Material")] private Renderer renderer;
     private NavMeshAgent _ai;
     private AttackArea _attackArea;
     private IWander _wanderImplementation;
@@ -53,19 +55,30 @@ public class Dragon : Creature,ICrystallizable,IWander
 
         
         wanderTimer = wanderDelay;
+        
     }
 
-    
+    private void Start()
+    {
+        if (!Application.isPlaying)  return;
+
+        renderer.material = new Material(renderer.material);
+    }
+
+
     void Update()
     {
-        //create new mat (fix later)
-        Material newMat = new Material(renderer.GetComponent<Renderer>().sharedMaterial);
-        newMat.color = Color;
-        renderer.GetComponent<Renderer>().sharedMaterial = newMat;
         
+   
         //if not playing dont run
         if (!Application.isPlaying)  return;
         
+        
+        //change color
+        if (renderer.material.HasProperty("_ToColor"))
+        {
+            renderer.material.SetColor("_ToColor",Color);
+        }
         
         base.Update();
 
@@ -81,6 +94,9 @@ public class Dragon : Creature,ICrystallizable,IWander
         {
             _ai.velocity = Vector3.zero;
         }
+        
+   
+
         
         FoodChoice();
 

@@ -107,12 +107,12 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _Fuzziness: 0.637
+    - _Fuzziness: 0.624
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _IsEnable: 0
-    - _Metallic: 0.619
+    - _Metallic: 0.607
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
