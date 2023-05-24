@@ -85,6 +85,11 @@ public class Dragon : Creature,ICrystallizable,IWander
         FoodChoice();
 
         Wander();
+        
+        
+        //animation speed
+        float walkSpeed_anim = (_ai.speed/2);
+        _anim.SetFloat("WalkSpeed", walkSpeed_anim);
     }
 
     public override void Flee()

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: NormalDragon
   m_EditorClassIdentifier: 
   EatHumanWhen: 9.31
-  EatDragonWhen: 0.61
+  EatDragonWhen: 10
   EatPlantWhen: 0
   EatCrystalWhen: 0
