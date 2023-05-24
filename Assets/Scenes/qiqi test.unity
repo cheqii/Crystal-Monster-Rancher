@@ -4412,7 +4412,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 28, y: -18}
+  m_AnchoredPosition: {x: 34, y: -28}
   m_SizeDelta: {x: 33.1, y: 35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &665691186
@@ -5157,41 +5157,25 @@ MonoBehaviour:
   SlotGridRectTransform: {fileID: 1379490908}
   mainInventory: 0
   ItemsInInventory:
-  - itemName: 
-    itemID: 0
-    itemDesc: 'If you drink this nice bottle you will get some health back.
+  - itemName: Raw Meat
+    itemID: 14
+    itemDesc: 'You can create some nice cooked meat out of it.
 
-
-      +
-      20 Health'
-    itemIcon: {fileID: 0}
-    itemModel: {fileID: 0}
+      + 5 Health'
+    itemIcon: {fileID: 21300000, guid: b29cbbd10ecf3fd40991d4734d556c17, type: 3}
+    itemModel: {fileID: 100000, guid: 40da790cc27843b45b9c255c8d996b43, type: 3}
     itemValue: 1
     itemType: 2
     itemWeight: 0
-    maxStack: 0
+    maxStack: 5
     indexItemInList: -1
-    rarity: 0
-    itemAttributes: []
-  - itemName: 
-    itemID: 0
-    itemDesc: 'If you drink this nice bottle you will get some health back.
-
-
-      +
-      20 Health'
-    itemIcon: {fileID: 0}
-    itemModel: {fileID: 0}
-    itemValue: 1
-    itemType: 2
-    itemWeight: 0
-    maxStack: 0
-    indexItemInList: 0
-    rarity: 0
-    itemAttributes: []
+    rarity: 35
+    itemAttributes:
+    - attributeName: Health
+      attributeValue: 5
   height: 1
   width: 4
-  stackable: 0
+  stackable: 1
   slotSize: 100
   iconSize: 85
   paddingBetweenX: 175
@@ -5200,8 +5184,8 @@ MonoBehaviour:
   paddingRight: 10
   paddingBottom: 10
   paddingTop: 10
-  positionNumberX: 0
-  positionNumberY: 0
+  positionNumberX: 50
+  positionNumberY: -50
 --- !u!1 &839008998
 GameObject:
   m_ObjectHideFlags: 0
@@ -7658,8 +7642,8 @@ MonoBehaviour:
   paddingRight: 70
   paddingBottom: 50
   paddingTop: 55
-  positionNumberX: 28
-  positionNumberY: -18
+  positionNumberX: 34
+  positionNumberY: -32
 --- !u!1 &1329539809
 GameObject:
   m_ObjectHideFlags: 0
