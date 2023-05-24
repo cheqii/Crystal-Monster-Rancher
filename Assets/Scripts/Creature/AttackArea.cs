@@ -25,8 +25,13 @@ public class AttackArea : MonoBehaviour
             {
                 creature._anim.SetTrigger("Eat");
                 creature._anim.SetBool("IsEating",true);
-
-                creature.CurrentStomach = creature.MaxStomach;
+                
+                creature.CurrentStomach = Mathf.Clamp(
+                    ((float)target.GetComponent<Creature>().MaxHp / (float)creature.MaxHp) * 10
+                    ,0,
+                    10);
+                
+                
                 target.GetComponent<Creature>().BodyDissolve();
             }
             else if (target.GetComponent<Creature>().IsDead == false)
