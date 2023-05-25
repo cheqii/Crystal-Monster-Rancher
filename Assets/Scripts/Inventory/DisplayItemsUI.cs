@@ -8,10 +8,17 @@ using TMPro;
 public class DisplayItemsUI : MonoBehaviour
 {
     [SerializeField] private GameObject hotbar;
+    private ToggleItems toggle;
+
+    private void Start()
+    {
+        toggle = GetComponent<ToggleItems>();
+    }
 
     private void Update()
     {
         DuplicateItems();
+        toggle.ToggleKeyItems();
     }
 
     void DuplicateItems()
@@ -25,9 +32,10 @@ public class DisplayItemsUI : MonoBehaviour
             if (hotbar.transform.GetChild(1).GetChild(i).childCount == 0) // if hotbar slot doesn't have an item on a slot
             {
                 itemIcon.enabled = false;
-                itemOnObject.itemInventory = null;
+                itemText.text = "";
+                itemOnObject.itemInventory = default;
             }
-            else // if hotbar have the items in slots
+            else if (hotbar.transform.GetChild(1).GetChild(i).childCount >= 1) // if hotbar have the items in slots
             {
                 ItemOnObject barItems = hotbar.transform.GetChild(1).GetChild(i).GetChild(0).GetComponent<ItemOnObject>(); // get component itemOnObject (item data) from "Items" as a hotbar child
                 Image barIcon = hotbar.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Image>(); // get component image from "hotbar" child

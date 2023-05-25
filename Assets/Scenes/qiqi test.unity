@@ -5689,8 +5689,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04c1cece1b30ec42bf4cedc48cf2289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inventory: {fileID: 1329253194}
+  vent: {fileID: 1329253200}
+  hotbar: {fileID: 58120593}
   _keyCodes: 31000000320000003300000034000000
-  totalSlots: 0
 --- !u!1 &839008998
 GameObject:
   m_ObjectHideFlags: 0
