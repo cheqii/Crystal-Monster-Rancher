@@ -9,7 +9,9 @@ using UnityEngine.EventSystems;
 
 public class StorageInventory : MonoBehaviour
 {
-
+    [SerializeField] private GameObject mainInv;
+    [SerializeField] private OwnHotbar ownHotbar;
+    
     [SerializeField]
     public GameObject inventory;
 
@@ -149,6 +151,8 @@ public class StorageInventory : MonoBehaviour
                 showTimer = false;
                 if (timer != null)
                     timer.SetActive(false);
+                ownHotbar.barActive = false;
+                ownHotbar.DisableHotbarSlot();
             }
         }
         else
@@ -158,6 +162,9 @@ public class StorageInventory : MonoBehaviour
             inventory.SetActive(false);
             inv.deleteAllItems();
             tooltip.deactivateTooltip();
+            if (mainInv.activeSelf) yield break;
+            ownHotbar.barActive = true;
+            ownHotbar.DisableHotbarSlot();
         }
 
 

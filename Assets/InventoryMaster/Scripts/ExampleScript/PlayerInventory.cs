@@ -19,6 +19,7 @@ public class PlayerInventory : MonoBehaviour
     public GameObject HPMANACanvas;
     
     public OwnHotbar hotbar;
+    public GameObject storage;
 
     Text hpText;
     Text manaText;
@@ -317,6 +318,7 @@ public class PlayerInventory : MonoBehaviour
                 if (toolTip != null)
                     toolTip.deactivateTooltip();
                 mainInventory.closeInventory();
+                if(storage.activeSelf) return;
                 hotbar.barActive = true;
                 hotbar.DisableHotbarSlot();
             }

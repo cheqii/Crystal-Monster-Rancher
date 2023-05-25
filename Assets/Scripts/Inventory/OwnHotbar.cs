@@ -16,12 +16,10 @@ public class OwnHotbar : MonoBehaviour
     {
         if(!barActive)
         {
-            Debug.Log("Hotbar is not active");
             gameObject.SetActive(false);
         }
         else
         {
-            Debug.Log("Hotbar is active");
             gameObject.SetActive(true);
         }
     }
