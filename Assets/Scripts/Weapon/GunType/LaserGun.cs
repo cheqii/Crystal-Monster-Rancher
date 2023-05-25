@@ -69,14 +69,14 @@ public class LaserGun : Gun, IShoot
                 _line.SetPosition(1, hit.point); // set end position of line to hit point
                 laserBullet.DealDamage(hit.transform.gameObject);
                 Destroy(hit.transform.gameObject);
+                if (laserBullet.gameObject.activeInHierarchy) Destroy(laserBullet);
             }
             else // set end position of line to ray origin -> distance
             {
                 _line.SetPosition(1, rayOrigin + (_Camera.transform.forward * Distance));
             }
             
-            
-            laserBullet.Move(shootPoint, hit.point); // Instantiate laser bullet and shoot it to the target
+            laserBullet.Move(shootPoint, _line.GetPosition(1)); // Instantiate laser bullet and shoot it to the target
             StartCoroutine(LaserDelay()); // delay for laser line
         }
         

@@ -20,7 +20,7 @@ public class ItemOnObject : MonoBehaviour                   //Saves the Item in 
 
     void Update()
     {
-        if(this.transform.parent.parent.tag == "OwnHotbar") return;
+        if(this.transform.parent.parent.parent.tag == "OwnHotbar") return;
         text.text = "" + itemInventory.itemValue; //sets the itemValue         
         image.sprite = itemInventory.itemIcon;
         GetComponent<ConsumeItem>().itemInventory = itemInventory;

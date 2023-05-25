@@ -32,8 +32,12 @@ public class CrystalGun : Gun, IShoot
             {
                 Debug.Log("Change to Crystal");
             }
+            else
+            {
+                if(crystalBullet.gameObject.activeInHierarchy) Destroy(crystalBullet);
+            }
             
-            crystalBullet.Move(shootPoint, hit.point);
+            crystalBullet.Move(shootPoint, shootPoint.position + (_Camera.transform.forward * Distance));
         }
     }
 
