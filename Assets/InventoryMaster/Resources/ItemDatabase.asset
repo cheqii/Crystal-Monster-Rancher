@@ -585,3 +585,51 @@ MonoBehaviour:
     indexItemInList: 999
     rarity: 0
     itemAttributes: []
+  - itemName: Laser Gun
+    itemID: 37
+    itemDesc: A Gun that shooting a laser!
+    itemIcon: {fileID: 21300000, guid: f70aa828cbefade41a1b68d5399f6de2, type: 3}
+    itemModel: {fileID: 0}
+    itemValue: 1
+    itemType: 16
+    itemWeight: 0
+    maxStack: 1
+    indexItemInList: 999
+    rarity: 99
+    itemAttributes: []
+  - itemName: Crystal Gun
+    itemID: 38
+    itemDesc: A Gun that will change anything to crystal!
+    itemIcon: {fileID: 21300000, guid: 4ca4da0f88df7c64cba9c1934d6930cc, type: 3}
+    itemModel: {fileID: 0}
+    itemValue: 1
+    itemType: 16
+    itemWeight: 0
+    maxStack: 1
+    indexItemInList: 999
+    rarity: 99
+    itemAttributes: []
+  - itemName: Gravity Gun
+    itemID: 39
+    itemDesc: A Gun that can move everything!
+    itemIcon: {fileID: 21300000, guid: d6efd776044c1224c981867349f7f6c7, type: 3}
+    itemModel: {fileID: 0}
+    itemValue: 1
+    itemType: 16
+    itemWeight: 0
+    maxStack: 1
+    indexItemInList: 999
+    rarity: 99
+    itemAttributes: []
+  - itemName: Knife
+    itemID: 40
+    itemDesc: A Knife can use to stab something...
+    itemIcon: {fileID: 21300000, guid: 35a03c24840fdf645b32929ae753519d, type: 3}
+    itemModel: {fileID: 0}
+    itemValue: 1
+    itemType: 16
+    itemWeight: 0
+    maxStack: 1
+    indexItemInList: 999
+    rarity: 0
+    itemAttributes: []

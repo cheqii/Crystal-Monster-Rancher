@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +19,7 @@ public class ToggleItems : MonoBehaviour
         for (int i = 0; i < totalSlots; i++)
         {
             ItemOnObject itemOnObject = transform.GetChild(0).GetChild(i).GetChild(0).GetComponent<ItemOnObject>();
+            UseWeapons weapons = transform.GetChild(0).GetChild(i).GetChild(0).GetComponent<UseWeapons>();
             
             if (Input.GetKeyDown(_keyCodes[i]))
             {
@@ -42,6 +38,10 @@ public class ToggleItems : MonoBehaviour
                     // set items data in own bar to default
                     itemOnObject.itemInventory = new ItemInventory();
                     itemOnObject.transform.GetChild(0).GetComponent<Image>().enabled = false;
+                }
+                else if (itemOnObject.itemInventory.itemType == ItemType.UFPS_Weapon)
+                {
+                    weapons.ActivateGun();
                 }
             }
         }
