@@ -18,11 +18,12 @@ public class ToggleItems : MonoBehaviour
     {
         for (int i = 0; i < totalSlots; i++)
         {
-            ItemOnObject itemOnObject = transform.GetChild(0).GetChild(i).GetChild(0).GetComponent<ItemOnObject>();
+            ItemOnObject itemOnObject = transform.GetChild(0).GetChild(GetMainTotalSlot()).GetChild(0).GetComponent<ItemOnObject>();
             UseWeapons weapons = transform.GetChild(0).GetChild(i).GetChild(0).GetComponent<UseWeapons>();
             
             if (Input.GetKeyDown(_keyCodes[i]))
             {
+                if(itemOnObject.itemInventory == null) return; // if slot have nothing then return
                 if (itemOnObject.itemInventory.itemType == ItemType.Consumable)
                 {
                     ItemOnObject inv = vent.transform.GetChild(1).GetChild(i).GetChild(0).GetComponent<ItemOnObject>();
@@ -51,5 +52,16 @@ public class ToggleItems : MonoBehaviour
     {
         totalSlots = this.transform.GetChild(0).childCount;
         return totalSlots;
+    }
+
+    int GetMainTotalSlot()
+    {
+        for (int i = 0; i < vent.transform.GetChild(1).GetChild(i).childCount; i++)
+        {
+            if(vent.gameObject.activeSelf) 
+                return vent.transform.GetChild(1).GetChild(i).childCount;
+        }
+
+        return 0;
     }
 }

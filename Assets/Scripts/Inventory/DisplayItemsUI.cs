@@ -44,6 +44,9 @@ public class DisplayItemsUI : MonoBehaviour
                 itemText.text = "" + itemOnObject.itemInventory.itemValue;
                 itemIcon.sprite = barIcon.sprite;
                 itemIcon.enabled = true;
+
+                if (itemOnObject.itemInventory.itemType == ItemType.UFPS_Weapon)
+                    itemText.text = "";
             }
         }
     }
