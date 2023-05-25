@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CrystalBullet : Bullet
 {
-    public override void Move(Transform bullet)
+    public override void Move(Transform bullet, Vector3 hitPoint)
     {
         GameObject cloneBullet = Instantiate(gameObject, bullet.position, bullet.rotation);
         cloneBullet.GetComponent<Rigidbody>().velocity = cloneBullet.transform.forward * Speed;

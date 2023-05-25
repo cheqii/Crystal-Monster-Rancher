@@ -8,7 +8,7 @@ public class LaserBullet : Bullet
     [SerializeField] private int minDamage;
     [SerializeField] private int maxDamage;
 
-    public override void Move(Transform bullet)
+    public override void Move(Transform bullet, Vector3 hitPoint)
     {
         GameObject cloneBullet = Instantiate(gameObject, bullet.position, bullet.rotation);
         cloneBullet.GetComponent<Rigidbody>().velocity = cloneBullet.transform.forward * Speed;

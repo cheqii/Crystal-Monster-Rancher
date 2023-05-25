@@ -33,7 +33,7 @@ public class CrystalGun : Gun, IShoot
                 Debug.Log("Change to Crystal");
             }
             
-            crystalBullet.Move(shootPoint);
+            crystalBullet.Move(shootPoint, hit.point);
         }
     }
 
