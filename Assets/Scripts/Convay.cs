@@ -18,7 +18,7 @@ public class Convay : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 pos = _rb.position;
-        _rb.position += Vector3.forward  * speed * Time.fixedDeltaTime;
+        _rb.position += transform.forward  * speed * Time.fixedDeltaTime;
         _rb.MovePosition(pos);
     }
 }
