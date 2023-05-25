@@ -10,7 +10,7 @@ public class ShowTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public GameObject tooltipGameObject;                        //the tooltip as a GameObject
     public RectTransform canvasRectTransform;                    //the panel(Inventory Background) RectTransform
     public RectTransform tooltipRectTransform;                  //the tooltip RectTransform
-    private Item item;
+    private ItemInventory _itemInventory;
 
 
     void Start()
@@ -31,8 +31,8 @@ public class ShowTooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (tooltip != null)
         {
-            item = GetComponent<ItemOnObject>().item;                   //we get the item
-            tooltip.item = item;                                        //set the item in the tooltip
+            _itemInventory = GetComponent<ItemOnObject>().itemInventory;                   //we get the item
+            tooltip.itemInventory = _itemInventory;                                        //set the item in the tooltip
             tooltip.activateTooltip();                                  //set all informations of the item in the tooltip
             if (canvasRectTransform == null)
                 return;

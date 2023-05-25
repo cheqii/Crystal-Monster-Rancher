@@ -33,7 +33,7 @@ public class CraftResultSlot : MonoBehaviour
     {
         if (craftSystem.possibleItems.Count != 0)
         {
-            itemGameObject.GetComponent<ItemOnObject>().item = craftSystem.possibleItems[temp];
+            itemGameObject.GetComponent<ItemOnObject>().itemInventory = craftSystem.possibleItems[temp];
             itemGameObject.SetActive(true);
         }
         else

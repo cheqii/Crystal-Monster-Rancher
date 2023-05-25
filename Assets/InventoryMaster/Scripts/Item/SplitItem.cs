@@ -31,19 +31,19 @@ public class SplitItem : MonoBehaviour, IPointerDownHandler
         {
             ItemOnObject itemOnObject = GetComponent<ItemOnObject>();                                                   //we take the ItemOnObject script of the item in the slot
 
-            if (itemOnObject.item.itemValue > 1)                                                                         //we split the item only when we have more than 1 in the stack
+            if (itemOnObject.itemInventory.itemValue > 1)                                                                         //we split the item only when we have more than 1 in the stack
             {
-                int splitPart = itemOnObject.item.itemValue;                                                           //we take the value and store it in there
-                itemOnObject.item.itemValue = (int)itemOnObject.item.itemValue / 2;                                     //calculate the new value for the splitted item
-                splitPart = splitPart - itemOnObject.item.itemValue;                                                   //take the different
+                int splitPart = itemOnObject.itemInventory.itemValue;                                                           //we take the value and store it in there
+                itemOnObject.itemInventory.itemValue = (int)itemOnObject.itemInventory.itemValue / 2;                                     //calculate the new value for the splitted item
+                splitPart = splitPart - itemOnObject.itemInventory.itemValue;                                                   //take the different
 
-                inv.addItemToInventory(itemOnObject.item.itemID, splitPart);                                            //and add a new item to the inventory
+                inv.addItemToInventory(itemOnObject.itemInventory.itemID, splitPart);                                            //and add a new item to the inventory
                 inv.stackableSettings();
 
                 if (GetComponent<ConsumeItem>().duplication != null)
                 {
                     GameObject dup = GetComponent<ConsumeItem>().duplication;
-                    dup.GetComponent<ItemOnObject>().item.itemValue = itemOnObject.item.itemValue;
+                    dup.GetComponent<ItemOnObject>().itemInventory.itemValue = itemOnObject.itemInventory.itemValue;
                     dup.GetComponent<SplitItem>().inv.stackableSettings();
                 }
                 inv.updateItemList();

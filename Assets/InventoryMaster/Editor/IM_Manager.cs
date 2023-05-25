@@ -359,11 +359,11 @@ public class IM_Manager : EditorWindow
                                     for (int z = 0; z < items.Length; z++)
                                     {
                                         ItemOnObject item = items[z].GetComponent<ItemOnObject>();
-                                        if (item.item.itemID == inventoryItemList.itemList[i].itemID)
+                                        if (item.itemInventory.itemID == inventoryItemList.itemList[i].itemID)
                                         {
-                                            int value = item.item.itemValue;
-                                            item.item = inventoryItemList.itemList[i];
-                                            item.item.itemValue = value;
+                                            int value = item.itemInventory.itemValue;
+                                            item.itemInventory = inventoryItemList.itemList[i];
+                                            item.itemInventory.itemValue = value;
                                         }
                                     }
 
@@ -481,7 +481,7 @@ public class IM_Manager : EditorWindow
                     {
                         manageItem1.Add(false);
                         GUILayout.BeginVertical("Box", GUILayout.Width(position.width - 23));
-                        manageItem1[i] = EditorGUILayout.Foldout(manageItem1[i], "" + bluePrintDatabase.blueprints[i].finalItem.itemName);                    //create for every item which you have in the itemdatabase a foldout
+                        manageItem1[i] = EditorGUILayout.Foldout(manageItem1[i], "" + bluePrintDatabase.blueprints[i].finalItemInventory.itemName);                    //create for every item which you have in the itemdatabase a foldout
                         if (manageItem1[i])                                                                                                      //if you press on it you get this
                         {
                             EditorGUI.indentLevel++;
@@ -634,9 +634,9 @@ public class IM_Manager : EditorWindow
     void addItem()                                          //add new item to the itemdatabase
     {
         EditorUtility.SetDirty(inventoryItemList);          //message scriptable object for incoming changes
-        Item newItem = new Item();                          //create a empty mask of an item
-        newItem.itemName = "New Item";                      //set the name as "new Item"
-        inventoryItemList.itemList.Add(newItem);            //and add this to the itemdatabase
+        ItemInventory newItemInventory = new ItemInventory();                          //create a empty mask of an item
+        newItemInventory.itemName = "New Item";                      //set the name as "new Item"
+        inventoryItemList.itemList.Add(newItemInventory);            //and add this to the itemdatabase
         EditorUtility.SetDirty(inventoryItemList);          //message scriptable object that you added something
     }
 

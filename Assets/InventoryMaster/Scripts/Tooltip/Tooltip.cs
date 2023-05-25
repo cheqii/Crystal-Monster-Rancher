@@ -2,13 +2,14 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
 public class Tooltip : MonoBehaviour
 {
-    public Item item;
+    [FormerlySerializedAs("item")] public ItemInventory itemInventory;
 
     //GUI
     [SerializeField]
@@ -113,9 +114,9 @@ public class Tooltip : MonoBehaviour
         tooltipImageIcon.SetActive(true);
         tooltipTextDesc.SetActive(true);
         transform.GetChild(0).gameObject.SetActive(true);          //Tooltip getting activated
-        transform.GetChild(1).GetComponent<Image>().sprite = item.itemIcon;         //and the itemIcon...
-        transform.GetChild(2).GetComponent<Text>().text = item.itemName;            //,itemName...
-        transform.GetChild(3).GetComponent<Text>().text = item.itemDesc;            //and itemDesc is getting set        
+        transform.GetChild(1).GetComponent<Image>().sprite = itemInventory.itemIcon;         //and the itemIcon...
+        transform.GetChild(2).GetComponent<Text>().text = itemInventory.itemName;            //,itemName...
+        transform.GetChild(3).GetComponent<Text>().text = itemInventory.itemDesc;            //and itemDesc is getting set        
     }
 
     public void deactivateTooltip()             //deactivating the tooltip after you went out of a slot
