@@ -184,7 +184,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     {
         IsDissolve = true;
         Debug.Log("disolve " + IsDissolve);
-
+        ParticleManager.Do.SpawnParticle(TempObject.Instance.CrystalParticle, transform.position, 10,3);
         TempObject.Instance.DestroyDelay(this.gameObject,3);
     }
 

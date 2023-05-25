@@ -26,4 +26,15 @@ public class ParticleManager : MonoBehaviour
         TempObject.Instance.DestroyDelay(par,destroyDelays);
         return par;
     }
+    public void SpawnParticle(GameObject particle,Vector3 _pos,float destroyDelays,float spawnDelay)
+    {
+        StartCoroutine(SpawnDelay(particle, _pos, destroyDelays, spawnDelay));
+    }
+    
+    IEnumerator SpawnDelay(GameObject particle,Vector3 _pos,float destroyDelays,float spawnDelay)
+    {
+        yield return new WaitForSeconds(spawnDelay);
+        var par = Instantiate(particle, _pos, Quaternion.identity);
+        TempObject.Instance.DestroyDelay(par,destroyDelays);
+    }
 }
