@@ -175,7 +175,10 @@ public class PhysicsGunInteractionBehavior : Gun
     //public properties for the Line Renderer
     public Vector3                  StartPoint                  { get; private set; }
     public Vector3                  MidPoint                    { get; private set; }
-    public Vector3                  EndPoint                    { get; private set; } 
+    public Vector3                  EndPoint                    { get; private set; }
+
+    private GameObject mainInventory;
+    private GameObject storageInventory;
 
     private void Start()
     {
@@ -197,6 +200,15 @@ public class PhysicsGunInteractionBehavior : Gun
         if(GunHold != GunType.GravityGun) return;
         if (!Input.GetMouseButton(0))
         {
+            // if inventory or storage is open, can't shoot a gun
+            var main = GameObject.FindGameObjectWithTag("MainInventory");
+            var storage = GameObject.FindGameObjectWithTag("Storage");
+            mainInventory = main;
+            storageInventory = storage;
+            
+            if(main) if(mainInventory.activeSelf) return;
+            if(storage) if(storageInventory.activeSelf) return;
+            
             // We are not holding the mouse button. Release the object and return before checking for a new one
             if (_grabbedRigidbody != null)
             {                

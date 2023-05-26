@@ -15,10 +15,7 @@ public class UseWeapons : MonoBehaviour
 
     [Header("ItemOnObject")]
     private ItemOnObject _itemOnObject; // for checking items id
-    private ToggleItems _toggleItems;
 
-    // private bool toggle;
-    
     #endregion
     
 

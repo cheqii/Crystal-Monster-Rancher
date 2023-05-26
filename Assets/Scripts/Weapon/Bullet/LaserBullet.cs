@@ -14,7 +14,7 @@ public class LaserBullet : Bullet
         cloneBullet.GetComponent<Rigidbody>().velocity = cloneBullet.transform.forward * Speed;
 
         if (Vector3.Distance(hitPoint, bullet.position) >= 3)
-            if(cloneBullet.gameObject.activeInHierarchy) Destroy(cloneBullet); // check if the clone bullet have active in the hierarchy then destroy it after 2 seconds
+            if(cloneBullet.gameObject.activeInHierarchy) Destroy(cloneBullet, 0.5f); // check if the clone bullet have active in the hierarchy then destroy it after 2 seconds
         
     }
 
@@ -22,6 +22,5 @@ public class LaserBullet : Bullet
     {
         int damage = Random.Range(minDamage, maxDamage);
         Debug.Log("Laser Bullet Deal Damage");
-        // target.GetComponent<Enemy>().TakeDamage(damage);
     }
 }

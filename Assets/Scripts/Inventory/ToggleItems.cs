@@ -18,11 +18,6 @@ public class ToggleItems : MonoBehaviour
         GetTotalSlot();
     }
 
-    private void Start()
-    {
-        ChangeSelectedSlot(0);
-    }
-
     public void ToggleKeyItems()
     {
         for (int i = 0; i < totalSlots; i++)
@@ -52,21 +47,19 @@ public class ToggleItems : MonoBehaviour
                 }
                 else if (itemOnObject.itemInventory.itemType == ItemType.UFPS_Weapon)
                 {
-                    // DeSelectItemsIconSize(75, i);
                     weapons.ActivateGun();
-                    // DeSelectItemsIconSize(75, i);
                 }
             }
         }
     }
     
-    public int GetTotalSlot()
+    int GetTotalSlot()
     {
         totalSlots = this.transform.GetChild(0).childCount;
         return totalSlots;
     }
 
-    int GetMainTotalSlot()
+    int GetMainTotalSlot() // get all main inventory slots
     {
         for (int i = 0; i < vent.transform.GetChild(1).GetChild(i).childCount; i++)
         {

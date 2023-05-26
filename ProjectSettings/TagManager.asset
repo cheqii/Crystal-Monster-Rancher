@@ -21,6 +21,7 @@ TagManager:
   - CraftSystem
   - ResultSlot
   - OwnHotbar
+  - Storage
   layers:
   - Default
   - TransparentFX
