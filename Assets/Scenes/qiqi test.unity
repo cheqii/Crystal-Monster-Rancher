@@ -6480,6 +6480,8 @@ MonoBehaviour:
   vent: {fileID: 1329253200}
   hotbar: {fileID: 58120593}
   _keyCodes: 31000000320000003300000034000000
+  selectSlotColor: {r: 1, g: 0.4669811, b: 0.4669811, a: 1}
+  deselectSlotColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &839008998
 GameObject:
   m_ObjectHideFlags: 0

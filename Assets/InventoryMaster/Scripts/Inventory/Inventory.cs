@@ -152,7 +152,6 @@ public class Inventory : MonoBehaviour
 
     public void closeInventory()
     {
-        Debug.Log("closeInv");
         openInv = false;
         this.gameObject.SetActive(false);
         checkIfAllInventoryClosed();
@@ -162,7 +161,6 @@ public class Inventory : MonoBehaviour
     public void openInventory()
     {
         openInv = true;
-        Debug.Log("openInv");
         this.gameObject.SetActive(true);
         if (InventoryOpen != null)
             InventoryOpen();
