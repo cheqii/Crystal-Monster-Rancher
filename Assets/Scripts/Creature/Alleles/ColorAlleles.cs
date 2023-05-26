@@ -9,9 +9,9 @@ public class ColorAlleles : Alleles
     
     
     
-    public void Start()
+    public void Setup()
     {
-        base.Start();
+        base.Setup();
 
         if (isPureBreed == true)
         {
@@ -23,6 +23,8 @@ public class ColorAlleles : Alleles
     
     public override void SetEffects()
     {
+        Setup();
+        
         Color newColor;
         
         var creature = GetComponent<Creature>();

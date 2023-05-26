@@ -13,6 +13,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
         Plant
     }
 
+    [SerializeField, Header("Color Material")] public Renderer renderer;
 
     [field: SerializeField]
     public float MaxSpeed { get; protected set; }
@@ -160,7 +161,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
 
     public virtual void Damage (int amount, GameObject damageDealer)
     {
-        
+        Hp -= amount;
     }
 
 
@@ -175,18 +176,15 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     }
 
     public virtual void Dead()
-    {           
-        _anim.SetBool("CanMove",true);
-        _anim.SetBool("IsDead",true);
+    {
         IsDead = true;
-        SetAnimationTrigger("Dead");
     }
     
     public virtual void BodyDissolve()
     {
         IsDissolve = true;
         Debug.Log("disolve " + IsDissolve);
-
+        ParticleManager.Do.SpawnParticle(TempObject.Instance.CrystalParticle, transform.position, 10,3);
         TempObject.Instance.DestroyDelay(this.gameObject,3);
     }
 
