@@ -8,24 +8,19 @@ public class ToggleItems : MonoBehaviour
     [SerializeField] private GameObject hotbar;
     [SerializeField] private KeyCode[] _keyCodes = new KeyCode[999];
 
-    public KeyCode[] KeyCodes
-    {
-        get => _keyCodes;
-        set => _keyCodes = value;
-    }
+    [SerializeField] private ItemSlot[] _itemSlots;
     
     private int totalSlots;
-
-    [Header("Select & Deselect Slot Color")]
-    [SerializeField] private Color selectSlotColor;
-    [SerializeField] private Color deselectSlotColor;
-
-    private bool selected;
     private int selectedSlot = -1;
     
     private void Awake()
     {
         GetTotalSlot();
+    }
+
+    private void Start()
+    {
+        ChangeSelectedSlot(0);
     }
 
     public void ToggleKeyItems()
@@ -37,9 +32,8 @@ public class ToggleItems : MonoBehaviour
             
             if (Input.GetKeyDown(_keyCodes[i]))
             {
+                ChangeSelectedSlot(i);
                 if(itemOnObject.itemInventory == null) return; // if slot have nothing then return
-                DeSelectItemsIconSize(75, i);
-                SelectItemsIconSize(135, i);
                 if (itemOnObject.itemInventory.itemType == ItemType.Consumable)
                 {
                     ItemOnObject inv = vent.transform.GetChild(1).GetChild(GetMainTotalSlot()).GetChild(0).GetComponent<ItemOnObject>();
@@ -83,35 +77,12 @@ public class ToggleItems : MonoBehaviour
         return 0;
     }
 
-    public void SelectItemsIconSize(int iconSize, int id)
+    void ChangeSelectedSlot(int value)
     {
-        Debug.Log("Update Icon Size When Select Items");
-
-        ItemOnObject itemOnObject = transform.GetChild(0).GetChild(id).GetChild(0).GetComponent<ItemOnObject>();
-        RectTransform slot = transform.GetChild(0).GetChild(id).GetChild(0).GetChild(0).GetComponent<RectTransform>();
-            
-        if(itemOnObject.itemInventory == null) return;
-        if (transform.GetChild(0).GetChild(id).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta ==
-            new Vector2(iconSize, iconSize)) return;
-        slot.sizeDelta = new Vector2(iconSize, iconSize);
-        Debug.Log("Hello?");
+        if(selectedSlot >= 0)
+            _itemSlots[selectedSlot].DeSelect();
         
-    }
-
-    public void DeSelectItemsIconSize(int iconSize, int id)
-    {
-        Debug.Log("Update Icon Size When Deselect Items");
-        
-        for (int i = 0; i < totalSlots; i++)
-        {
-            ItemOnObject itemOnObject = transform.GetChild(0).GetChild(id).GetChild(0).GetComponent<ItemOnObject>();
-            RectTransform slot = transform.GetChild(0).GetChild(i).GetChild(0).GetChild(0).GetComponent<RectTransform>();
-            
-            if(itemOnObject.itemInventory == null) return;
-            if (transform.GetChild(0).GetChild(id).GetChild(0).GetChild(0).GetComponent<RectTransform>().sizeDelta ==
-                new Vector2(iconSize, iconSize)) return;
-            slot.sizeDelta = new Vector2(iconSize, iconSize);
-            Debug.Log("Why here ??");
-        }
+        _itemSlots[value].Select();
+        selectedSlot = value;
     }
 }
