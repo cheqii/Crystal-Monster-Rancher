@@ -19,22 +19,23 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private float ySensitivity = 30f;
 
     #region -Inventory Panel-
-
-    public GameObject inventoryPanel;
-    public GameObject storagePanel;
+    
+    // public GameObject inventoryPanel;
+    // public GameObject storagePanel;
 
     #endregion
 
-    public GameObject crosshair;
+    // public GameObject crosshair;
 
     private void Update()
     {
-        CursorControl();
+        // CursorControl();
     }
 
     public void ProcessLook(Vector2 input)
     {
-        if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy) return; // if inventory is open, don't rotate camera
+        // if(inventoryPanel == null || storagePanel == null) return;
+        // if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy) return; // if inventory is open, don't rotate camera
         
         float mouseX = input.x;
         float mouseY = input.y;
@@ -52,17 +53,18 @@ public class PlayerLook : MonoBehaviour
 
     void CursorControl()
     {
-        if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy) // if inventory is open, unlock cursor
-        {
-            crosshair.SetActive(false);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else // if inventory is closed, lock cursor
-        {
-            crosshair.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+        // if (inventoryPanel == null || storagePanel == null) return;
+        // if(inventoryPanel.activeInHierarchy || storagePanel.activeInHierarchy) // if inventory is open, unlock cursor
+        // {
+        //     crosshair.SetActive(false);
+        //     Cursor.lockState = CursorLockMode.None;
+        //     Cursor.visible = true;
+        // }
+        // else // if inventory is closed, lock cursor
+        // {
+        //     crosshair.SetActive(true);
+        //     Cursor.lockState = CursorLockMode.Locked;
+        //     Cursor.visible = false;
+        // }
     }
 }

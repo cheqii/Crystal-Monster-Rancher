@@ -22,6 +22,7 @@ TagManager:
   - ResultSlot
   - OwnHotbar
   - Storage
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - PostProcessing
   - 
   - 
   - 

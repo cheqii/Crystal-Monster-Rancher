@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = controller.isGrounded;
         isSprinting = speed == sprintSpeed;
         
-        DecreaseEnergyBySprint();
+        // DecreaseEnergyBySprint();
     }
 
     #region -Player Movement-
@@ -58,20 +58,20 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    void DecreaseEnergyBySprint()
-    {
-        var energy = PlayerSlider.Instance;
-        
-        if (energy.CurrentEnergy <= 0) // if energy is 0, stop sprinting
-        {
-            speed = 5f;
-            isSprinting = false;
-            energy.isUseEnergy = false;
-            energy.isRecoveredE = true;
-            return;
-        }
-        
-        if (isSprinting) energy.DecreaseEnergy(5 * Time.deltaTime);
-        else energy.isUseEnergy = false; // if not sprinting, stop decreasing energy and start recovery
-    }
+    // void DecreaseEnergyBySprint()
+    // {
+    //     var energy = PlayerSlider.Instance;
+    //     
+    //     if (energy.CurrentEnergy <= 0) // if energy is 0, stop sprinting
+    //     {
+    //         speed = 5f;
+    //         isSprinting = false;
+    //         energy.isUseEnergy = false;
+    //         energy.isRecoveredE = true;
+    //         return;
+    //     }
+    //     
+    //     if (isSprinting) energy.DecreaseEnergy(5 * Time.deltaTime);
+    //     else energy.isUseEnergy = false; // if not sprinting, stop decreasing energy and start recovery
+    // }
 }
