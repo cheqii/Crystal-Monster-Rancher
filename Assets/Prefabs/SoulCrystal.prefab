@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 5560711172888895983}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.000000041358, y: -0, z: -0.00000044887}
-  m_LocalScale: {x: 11.275594, y: 11.275594, z: 11.275594}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,6 +119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2711377d8275194f87d66a0d2afa377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  renderer: {fileID: 5560711172888895983}
+  <MaxSpeed>k__BackingField: 0
   <Specie>k__BackingField: 1
   <Sex>k__BackingField: 0
   <Color>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
@@ -126,9 +128,17 @@ MonoBehaviour:
   <SleepDelay>k__BackingField: 100
   <CrystalSleepTime>k__BackingField: 0
   <CanSleep>k__BackingField: 1
+  <MaxHp>k__BackingField: 0
   <Hp>k__BackingField: 0
+  <IsDead>k__BackingField: 0
+  <IsDissolve>k__BackingField: 0
+  <isFlee>k__BackingField: 0
+  <fleeDistance>k__BackingField: 0
   Genetic: []
   attackTarget: {fileID: 0}
+  <CurrentStomach>k__BackingField: 0
+  <SizeLimit>k__BackingField: 0
+  <FoodIngestDelay>k__BackingField: 0
   renderer: {fileID: 5560711172888895983}
 --- !u!64 &5560711174329336216
 MeshCollider:

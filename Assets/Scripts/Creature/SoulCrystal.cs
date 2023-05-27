@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SoulCrystal : Creature,ICollectable
 {
-    [SerializeField] private GameObject renderer;
 
     
     // Start is called before the first frame update
@@ -16,9 +15,7 @@ public class SoulCrystal : Creature,ICollectable
     // Update is called once per frame
     void Update()
     {
-        Material newMat = new Material(renderer.GetComponent<Renderer>().sharedMaterial);
-        newMat.color = Color;
-        renderer.GetComponent<Renderer>().sharedMaterial = newMat;
+      
     }
 
     public void CrystalSetup(SexEnum.Sex sex,Color color,float size,int sleepTime)

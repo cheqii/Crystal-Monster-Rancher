@@ -6,6 +6,7 @@ public class TempObject : MonoBehaviour
 {
     public GameObject SoulCrystal;
     public GameObject CrystalParticle;
+    public GameObject CrystalCollectParticle;
 
     public DynamicTextData DamageTextData;
     public DynamicTextData CriteTextData;

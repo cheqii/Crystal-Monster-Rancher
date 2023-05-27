@@ -29,6 +29,10 @@ public class LaserGun : Gun, IShoot
     private GameObject mainInventory;
     private GameObject storageInventory;
     
+    
+    public ParticleSystem muzzleFlashParticle;
+
+    
     #endregion
 
     #region -Unity Event Functions-
@@ -61,6 +65,8 @@ public class LaserGun : Gun, IShoot
         //ammoText.enabled = true;
         if (Input.GetMouseButtonDown(0) && Ammo > 0 && nextFire > fireRate)
         {
+            muzzleFlashParticle.Play();
+            
             // if inventory or storage is open, can't shoot a gun
             var main = GameObject.FindGameObjectWithTag("MainInventory");
             var storage = GameObject.FindGameObjectWithTag("Storage");

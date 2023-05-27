@@ -388,7 +388,7 @@ public class Bizun : Creature,ICrystallizable,IWander
         crystalParticle.transform.SetParent(crystal.transform);
 
         //set crystal size
-        crystal.transform.localScale = new Vector3(Size * 10, Size * 10, Size * 10);
+        crystal.transform.localScale = new Vector3(Size, Size, Size);
         
         var soulCrystal = crystal.GetComponent<SoulCrystal>();
 
