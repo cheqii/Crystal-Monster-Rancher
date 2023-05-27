@@ -16,6 +16,7 @@ public class CrystalGun : Gun, IShoot
     }
     void Update()
     {
+        base.Update();
         Shoot();
     }
 

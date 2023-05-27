@@ -41,11 +41,12 @@ public class LaserGun : Gun, IShoot
     void Start()
     {
         _Camera = GetComponentInParent<PlayerLook>().Cam;
-        ammoText.text = "Ammo : " + Ammo;
+        //ammoText.text = "Ammo : " + Ammo;
     }
 
     void Update()
     {
+        base.Update();
         Shoot();
     }
 
@@ -57,7 +58,7 @@ public class LaserGun : Gun, IShoot
     {
         nextFire += Time.deltaTime;
         if (GunHold != GunType.LaserGun) return;
-        ammoText.enabled = true;
+        //ammoText.enabled = true;
         if (Input.GetMouseButtonDown(0) && Ammo > 0 && nextFire > fireRate)
         {
             // if inventory or storage is open, can't shoot a gun
@@ -70,7 +71,7 @@ public class LaserGun : Gun, IShoot
             if(storage) if(storageInventory.activeSelf) return;
             
             Ammo -= 1;
-            ammoText.text = "Ammo : " + Ammo;
+            //ammoText.text = "Ammo : " + Ammo;
             _line.SetPosition(0, laserOrigin.position); // set line origin to laser origin
             Vector3 rayOrigin = _Camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f)); // center of the camera to create ray origin
             RaycastHit hit;
@@ -79,8 +80,6 @@ public class LaserGun : Gun, IShoot
             {
                 
                 _line.SetPosition(1, hit.point); // set end position of line to hit point
-                laserBullet.DealDamage(hit.transform.gameObject);
-                Destroy(hit.transform.gameObject);
                 if (laserBullet.gameObject.activeInHierarchy) Destroy(laserBullet);
             }
             else // set end position of line to ray origin -> distance

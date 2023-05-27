@@ -18,9 +18,19 @@ public class LaserBullet : Bullet
         
     }
 
-    public void DealDamage(GameObject target)
+    private void OnTriggerEnter(Collider col)
     {
-        int damage = Random.Range(minDamage, maxDamage);
-        Debug.Log("Laser Bullet Deal Damage");
+        if (col.gameObject.GetComponent<IDamagable>() != null)
+        {
+            int damage = Random.Range(minDamage, maxDamage);
+            col.gameObject.GetComponent<IDamagable>().Damage(damage, FindObjectOfType<PlayerMovement>().gameObject);
+
+            DynamicTextManager.CreateText(
+                col.transform.position + Vector3.up * 2,
+                damage + "",
+                TempObject.Instance.DamageTextData);
+        }
     }
+    
+
 }

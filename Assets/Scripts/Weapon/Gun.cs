@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public enum GunType
 {
@@ -53,18 +55,31 @@ public class Gun : Weapon
         set => gunHold = value;
     }
 
+
+    public TwoBoneIKConstraint rig1;
+    public TwoBoneIKConstraint rig2;
+    
+    public Transform rig1_target;
+    public Transform rig1_hint;
+
+    public Transform rig2_target;
+    public Transform rig2_hint;
+
     #endregion
 
     #region -Unity Function-
+    
 
-    private void Start()
+    public void Update()
     {
+        rig1.data.target.position = rig1_target.position;
+        rig1.data.target.rotation = rig1_target.rotation;
         
-    }
+        rig1.data.hint.position = rig1_hint.position;
 
-    private void Update()
-    {
-        
+        rig2.data.target.position = rig2_target.position;
+        rig2.data.target.rotation = rig2_target.rotation;
+        rig2.data.hint.position = rig2_hint.position;
     }
 
     #endregion

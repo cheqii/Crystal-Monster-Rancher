@@ -197,6 +197,7 @@ public class PhysicsGunInteractionBehavior : Gun
 
 	private void Update ()
     {
+        base.Update();
         if(GunHold != GunType.GravityGun) return;
         if (!Input.GetMouseButton(0))
         {
