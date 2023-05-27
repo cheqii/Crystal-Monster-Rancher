@@ -5,6 +5,7 @@ using UnityEngine;
 public class TempObject : MonoBehaviour
 {
     public GameObject SoulCrystal;
+    public GameObject Crystal;
     public GameObject CrystalParticle;
     public GameObject CrystalCollectParticle;
 

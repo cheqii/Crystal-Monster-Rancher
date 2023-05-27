@@ -337,6 +337,7 @@ public class Bizun : Creature,ICrystallizable,IWander
         
     }
     
+
     private void Eat()
     {
         

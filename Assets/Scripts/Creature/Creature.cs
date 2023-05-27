@@ -87,7 +87,10 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
     public bool NeedFood { get; set; }
 
     //IValue
+    [field: SerializeField , Range(0,10)]
     public int _Value { get; set; }
+
+    public GameObject dropCrystal;
 
 
     private void Awake()
@@ -254,6 +257,9 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
             //if digest
             if (timer <= 0)
             {
+                Instantiate(dropCrystal,transform.position,Quaternion.identity);
+
+                
                 timer = FoodIngestDelay;
                 
                 //if food in Stomach more than half of MaxStomach
@@ -266,6 +272,8 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
                     CurrentStomach -= MaxStomach / 5;
                 }
 
+
+                
                 //lose 1% of food
                 CurrentStomach -= MaxStomach / 100;
                 
@@ -278,6 +286,7 @@ public class Creature : MonoBehaviour,IGrowable,IDamagable,IValue
                 {
                     //heal if have food
                     Hp += MaxHp / 100;
+
                 }
                 
                 

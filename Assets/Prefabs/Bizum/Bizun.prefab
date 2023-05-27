@@ -1588,6 +1588,9 @@ MonoBehaviour:
   <CurrentStomach>k__BackingField: 0
   <SizeLimit>k__BackingField: 3.5
   <FoodIngestDelay>k__BackingField: 5
+  <_Value>k__BackingField: 0
+  dropCrystal: {fileID: 2204307251176535368, guid: 5c6d1f9650e22e64091022881bc1469c,
+    type: 3}
   _foodChoice: {fileID: 11400000, guid: 5ad9c332e3dd819419d57173cde2bb05, type: 2}
   moveSpeed: 7.1
   <wanderRadius>k__BackingField: 50
