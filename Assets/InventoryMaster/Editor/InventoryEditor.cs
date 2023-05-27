@@ -203,7 +203,7 @@ public class InventoryEditor : Editor
 
     void addItemGUI()                                                                                                       //add a item to the inventory through the inspector
     {
-        inv.updateIconSize(90);
+        inv.updateIconSize(55);
         if (!inv.characterSystem())
         {
             GUILayout.Label("Add an item:");

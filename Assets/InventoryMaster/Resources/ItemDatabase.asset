@@ -588,7 +588,7 @@ MonoBehaviour:
   - itemName: Laser Gun
     itemID: 37
     itemDesc: A Gun that shooting a laser!
-    itemIcon: {fileID: 21300000, guid: f70aa828cbefade41a1b68d5399f6de2, type: 3}
+    itemIcon: {fileID: 21300000, guid: 7f161a49758f4394888c8c2593eff3e2, type: 3}
     itemModel: {fileID: 0}
     itemValue: 1
     itemType: 16
@@ -600,7 +600,7 @@ MonoBehaviour:
   - itemName: Crystal Gun
     itemID: 38
     itemDesc: A Gun that will change anything to crystal!
-    itemIcon: {fileID: 21300000, guid: 4ca4da0f88df7c64cba9c1934d6930cc, type: 3}
+    itemIcon: {fileID: 21300000, guid: 6d2942d74b9d58d409d27487ad89e414, type: 3}
     itemModel: {fileID: 0}
     itemValue: 1
     itemType: 16
