@@ -62,8 +62,8 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
 
     public void createDuplication(GameObject Item)
     {
-        Item item = Item.GetComponent<ItemOnObject>().item;
-        GameObject duplication = GameObject.FindGameObjectWithTag("MainInventory").GetComponent<Inventory>().addItemToInventory(item.itemID, item.itemValue);
+        ItemInventory itemInventory = Item.GetComponent<ItemOnObject>().itemInventory;
+        GameObject duplication = GameObject.FindGameObjectWithTag("MainInventory").GetComponent<Inventory>().addItemToInventory(itemInventory.itemID, itemInventory.itemValue);
         duplication.transform.parent.parent.parent.GetComponent<Inventory>().stackableSettings();
         Item.GetComponent<ConsumeItem>().duplication = duplication;
         duplication.GetComponent<ConsumeItem>().duplication = Item;
@@ -85,20 +85,20 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                 GameObject secondItemGameObject = newSlot.parent.gameObject;
                 RectTransform firstItemRectTransform = this.gameObject.GetComponent<RectTransform>();
                 RectTransform secondItemRectTransform = newSlot.parent.GetComponent<RectTransform>();
-                Item firstItem = rectTransform.GetComponent<ItemOnObject>().item;
-                Item secondItem = new Item();
+                ItemInventory firstItemInventory = rectTransform.GetComponent<ItemOnObject>().itemInventory;
+                ItemInventory secondItemInventory = new ItemInventory();
                 if (newSlot.parent.GetComponent<ItemOnObject>() != null)
-                    secondItem = newSlot.parent.GetComponent<ItemOnObject>().item;
+                    secondItemInventory = newSlot.parent.GetComponent<ItemOnObject>().itemInventory;
 
                 //get some informations about the two items
-                bool sameItem = firstItem.itemName == secondItem.itemName;
-                bool sameItemRerferenced = firstItem.Equals(secondItem);
+                bool sameItem = firstItemInventory.itemName == secondItemInventory.itemName;
+                bool sameItemRerferenced = firstItemInventory.Equals(secondItemInventory);
                 bool secondItemStack = false;
                 bool firstItemStack = false;
                 if (sameItem)
                 {
-                    firstItemStack = firstItem.itemValue < firstItem.maxStack;
-                    secondItemStack = secondItem.itemValue < secondItem.maxStack;
+                    firstItemStack = firstItemInventory.itemValue < firstItemInventory.maxStack;
+                    secondItemStack = secondItemInventory.itemValue < secondItemInventory.maxStack;
                 }
 
                 GameObject Inventory = secondItemRectTransform.parent.gameObject;
@@ -127,7 +127,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             //check if the items fits into the other item
                             bool fitsIntoStack = false;
                             if (sameItem)
-                                fitsIntoStack = (firstItem.itemValue + secondItem.itemValue) <= firstItem.maxStack;
+                                fitsIntoStack = (firstItemInventory.itemValue + secondItemInventory.itemValue) <= firstItemInventory.maxStack;
                             //if the item is stackable checking if the firstitemstack and seconditemstack is not full and check if they are the same items
 
                             if (inventory.stackable && sameItem && firstItemStack && secondItemStack)
@@ -135,14 +135,14 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                                 //if the item does not fit into the other item
                                 if (fitsIntoStack && !sameItemRerferenced)
                                 {
-                                    secondItem.itemValue = firstItem.itemValue + secondItem.itemValue;
+                                    secondItemInventory.itemValue = firstItemInventory.itemValue + secondItemInventory.itemValue;
                                     secondItemGameObject.transform.SetParent(newSlot.parent.parent);
                                     Destroy(firstItemGameObject);
                                     secondItemRectTransform.localPosition = Vector3.zero;
                                     if (secondItemGameObject.GetComponent<ConsumeItem>().duplication != null)
                                     {
                                         GameObject dup = secondItemGameObject.GetComponent<ConsumeItem>().duplication;
-                                        dup.GetComponent<ItemOnObject>().item.itemValue = secondItem.itemValue;
+                                        dup.GetComponent<ItemOnObject>().itemInventory.itemValue = secondItemInventory.itemValue;
                                         dup.GetComponent<SplitItem>().inv.stackableSettings();
                                         dup.transform.parent.parent.parent.GetComponent<Inventory>().updateItemList();
                                     }
@@ -151,13 +151,13 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                                 else
                                 {
                                     //creates the rest of the item
-                                    int rest = (firstItem.itemValue + secondItem.itemValue) % firstItem.maxStack;
+                                    int rest = (firstItemInventory.itemValue + secondItemInventory.itemValue) % firstItemInventory.maxStack;
 
                                     //fill up the other stack and adds the rest to the other stack 
                                     if (!fitsIntoStack && rest > 0)
                                     {
-                                        firstItem.itemValue = firstItem.maxStack;
-                                        secondItem.itemValue = rest;
+                                        firstItemInventory.itemValue = firstItemInventory.maxStack;
+                                        secondItemInventory.itemValue = rest;
 
                                         firstItemGameObject.transform.SetParent(secondItemGameObject.transform.parent);
                                         secondItemGameObject.transform.SetParent(oldSlot.transform);
@@ -174,13 +174,13 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                                 //creates the rest of the item
                                 int rest = 0;
                                 if (sameItem)
-                                    rest = (firstItem.itemValue + secondItem.itemValue) % firstItem.maxStack;
+                                    rest = (firstItemInventory.itemValue + secondItemInventory.itemValue) % firstItemInventory.maxStack;
 
                                 //fill up the other stack and adds the rest to the other stack 
                                 if (!fitsIntoStack && rest > 0)
                                 {
-                                    secondItem.itemValue = firstItem.maxStack;
-                                    firstItem.itemValue = rest;
+                                    secondItemInventory.itemValue = firstItemInventory.maxStack;
+                                    firstItemInventory.itemValue = rest;
 
                                     firstItemGameObject.transform.SetParent(secondItemGameObject.transform.parent);
                                     secondItemGameObject.transform.SetParent(oldSlot.transform);
@@ -192,10 +192,10 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                                 else if (!fitsIntoStack && rest == 0)
                                 {
                                     //if you are dragging an item from equipmentsystem to the inventory and try to swap it with the same itemtype
-                                    if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null && firstItem.itemType == secondItem.itemType)
+                                    if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null && firstItemInventory.itemType == secondItemInventory.itemType)
                                     {
-                                        newSlot.transform.parent.parent.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItem);
-                                        oldSlot.transform.parent.parent.GetComponent<Inventory>().EquiptItem(secondItem);
+                                        newSlot.transform.parent.parent.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItemInventory);
+                                        oldSlot.transform.parent.parent.GetComponent<Inventory>().EquiptItem(secondItemInventory);
 
                                         firstItemGameObject.transform.SetParent(secondItemGameObject.transform.parent);
                                         secondItemGameObject.transform.SetParent(oldSlot.transform);
@@ -207,7 +207,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
 
                                     }
                                     //if you are dragging an item from the equipmentsystem to the inventory and they are not from the same itemtype they do not get swapped.                                    
-                                    else if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null && firstItem.itemType != secondItem.itemType)
+                                    else if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null && firstItemInventory.itemType != secondItemInventory.itemType)
                                     {
                                         firstItemGameObject.transform.SetParent(oldSlot.transform);
                                         firstItemRectTransform.localPosition = Vector3.zero;
@@ -240,7 +240,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                                 firstItemRectTransform.localPosition = Vector3.zero;
 
                                 if (newSlot.transform.parent.parent.GetComponent<EquipmentSystem>() == null && oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null)
-                                    oldSlot.transform.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItem);
+                                    oldSlot.transform.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItemInventory);
                             }
                         }
                     }
@@ -259,7 +259,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                         //check if the items fits into the other item
                         bool fitsIntoStack = false;
                         if (sameItem)
-                            fitsIntoStack = (firstItem.itemValue + secondItem.itemValue) <= firstItem.maxStack;
+                            fitsIntoStack = (firstItemInventory.itemValue + secondItemInventory.itemValue) <= firstItemInventory.maxStack;
                         //if the item is stackable checking if the firstitemstack and seconditemstack is not full and check if they are the same items
 
                         if (inventory.stackable && sameItem && firstItemStack && secondItemStack)
@@ -267,14 +267,14 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             //if the item does not fit into the other item
                             if (fitsIntoStack && !sameItemRerferenced)
                             {
-                                secondItem.itemValue = firstItem.itemValue + secondItem.itemValue;
+                                secondItemInventory.itemValue = firstItemInventory.itemValue + secondItemInventory.itemValue;
                                 secondItemGameObject.transform.SetParent(newSlot.parent.parent);
                                 Destroy(firstItemGameObject);
                                 secondItemRectTransform.localPosition = Vector3.zero;
                                 if (secondItemGameObject.GetComponent<ConsumeItem>().duplication != null)
                                 {
                                     GameObject dup = secondItemGameObject.GetComponent<ConsumeItem>().duplication;
-                                    dup.GetComponent<ItemOnObject>().item.itemValue = secondItem.itemValue;
+                                    dup.GetComponent<ItemOnObject>().itemInventory.itemValue = secondItemInventory.itemValue;
                                     Inventory.GetComponent<Inventory>().stackableSettings();
                                     dup.transform.parent.parent.parent.GetComponent<Inventory>().updateItemList();
                                 }
@@ -283,13 +283,13 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             else
                             {
                                 //creates the rest of the item
-                                int rest = (firstItem.itemValue + secondItem.itemValue) % firstItem.maxStack;
+                                int rest = (firstItemInventory.itemValue + secondItemInventory.itemValue) % firstItemInventory.maxStack;
 
                                 //fill up the other stack and adds the rest to the other stack 
                                 if (!fitsIntoStack && rest > 0)
                                 {
-                                    firstItem.itemValue = firstItem.maxStack;
-                                    secondItem.itemValue = rest;
+                                    firstItemInventory.itemValue = firstItemInventory.maxStack;
+                                    secondItemInventory.itemValue = rest;
 
                                     firstItemGameObject.transform.SetParent(secondItemGameObject.transform.parent);
                                     secondItemGameObject.transform.SetParent(oldSlot.transform);
@@ -298,7 +298,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                                     secondItemRectTransform.localPosition = Vector3.zero;
 
                                     createDuplication(this.gameObject);
-                                    secondItemGameObject.GetComponent<ConsumeItem>().duplication.GetComponent<ItemOnObject>().item = secondItem;
+                                    secondItemGameObject.GetComponent<ConsumeItem>().duplication.GetComponent<ItemOnObject>().itemInventory = secondItemInventory;
                                     secondItemGameObject.GetComponent<SplitItem>().inv.stackableSettings();
 
                                 }
@@ -311,15 +311,15 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             //creates the rest of the item
                             int rest = 0;
                             if (sameItem)
-                                rest = (firstItem.itemValue + secondItem.itemValue) % firstItem.maxStack;
+                                rest = (firstItemInventory.itemValue + secondItemInventory.itemValue) % firstItemInventory.maxStack;
 
                             bool fromEquip = oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null;
 
                             //fill up the other stack and adds the rest to the other stack 
                             if (!fitsIntoStack && rest > 0)
                             {
-                                secondItem.itemValue = firstItem.maxStack;
-                                firstItem.itemValue = rest;
+                                secondItemInventory.itemValue = firstItemInventory.maxStack;
+                                firstItemInventory.itemValue = rest;
 
                                 createDuplication(this.gameObject);
 
@@ -373,7 +373,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             firstItemRectTransform.localPosition = Vector3.zero;
 
                             if (newSlot.transform.parent.parent.GetComponent<EquipmentSystem>() == null && oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null)
-                                oldSlot.transform.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItem);
+                                oldSlot.transform.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItemInventory);
                             createDuplication(firstItemGameObject);
                         }
                     }
@@ -387,7 +387,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                     ItemType[] itemTypeOfSlots = GameObject.FindGameObjectWithTag("EquipmentSystem").GetComponent<EquipmentSystem>().itemTypeOfSlots;
                     int newSlotChildCount = newSlot.transform.parent.childCount;
                     bool isOnSlot = newSlot.transform.parent.GetChild(0).tag == "ItemIcon";
-                    bool sameItemType = firstItem.itemType == secondItem.itemType;
+                    bool sameItemType = firstItemInventory.itemType == secondItemInventory.itemType;
                     bool fromHot = oldSlot.transform.parent.parent.GetComponent<Hotbar>() != null;
 
                     //dragging on a slot where allready is an item on
@@ -406,16 +406,16 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
 
                             if (!temp1.Equals(temp2))
                             {
-                                if (firstItem.itemType == ItemType.UFPS_Weapon)
+                                if (firstItemInventory.itemType == ItemType.UFPS_Weapon)
                                 {
-                                    Inventory.GetComponent<Inventory>().UnEquipItem1(secondItem);
-                                    Inventory.GetComponent<Inventory>().EquiptItem(firstItem);
+                                    Inventory.GetComponent<Inventory>().UnEquipItem1(secondItemInventory);
+                                    Inventory.GetComponent<Inventory>().EquiptItem(firstItemInventory);
                                 }
                                 else
                                 {
-                                    Inventory.GetComponent<Inventory>().EquiptItem(firstItem);
-                                    if (secondItem.itemType != ItemType.Backpack)
-                                        Inventory.GetComponent<Inventory>().UnEquipItem1(secondItem);
+                                    Inventory.GetComponent<Inventory>().EquiptItem(firstItemInventory);
+                                    if (secondItemInventory.itemType != ItemType.Backpack)
+                                        Inventory.GetComponent<Inventory>().UnEquipItem1(secondItemInventory);
                                 }
                             }
 
@@ -442,13 +442,13 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             if (newSlot.Equals(newSlot.parent.GetChild(i)))
                             {
                                 //checking if it is the right slot for the item
-                                if (itemTypeOfSlots[i] == transform.GetComponent<ItemOnObject>().item.itemType)
+                                if (itemTypeOfSlots[i] == transform.GetComponent<ItemOnObject>().itemInventory.itemType)
                                 {
                                     transform.SetParent(newSlot);
                                     rectTransform.localPosition = Vector3.zero;
 
                                     if (!oldSlot.transform.parent.parent.Equals(newSlot.transform.parent.parent))
-                                        Inventory.GetComponent<Inventory>().EquiptItem(firstItem);
+                                        Inventory.GetComponent<Inventory>().EquiptItem(firstItemInventory);
 
                                 }
                                 //else it get back to the old slot
@@ -478,7 +478,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                         //check if the items fits into the other item
                         bool fitsIntoStack = false;
                         if (sameItem)
-                            fitsIntoStack = (firstItem.itemValue + secondItem.itemValue) <= firstItem.maxStack;
+                            fitsIntoStack = (firstItemInventory.itemValue + secondItemInventory.itemValue) <= firstItemInventory.maxStack;
                         //if the item is stackable checking if the firstitemstack and seconditemstack is not full and check if they are the same items
 
                         if (inventory.stackable && sameItem && firstItemStack && secondItemStack)
@@ -486,7 +486,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             //if the item does not fit into the other item
                             if (fitsIntoStack && !sameItemRerferenced)
                             {
-                                secondItem.itemValue = firstItem.itemValue + secondItem.itemValue;
+                                secondItemInventory.itemValue = firstItemInventory.itemValue + secondItemInventory.itemValue;
                                 secondItemGameObject.transform.SetParent(newSlot.parent.parent);
                                 Destroy(firstItemGameObject);
                                 secondItemRectTransform.localPosition = Vector3.zero;
@@ -495,7 +495,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                                 if (secondItemGameObject.GetComponent<ConsumeItem>().duplication != null)
                                 {
                                     GameObject dup = secondItemGameObject.GetComponent<ConsumeItem>().duplication;
-                                    dup.GetComponent<ItemOnObject>().item.itemValue = secondItem.itemValue;
+                                    dup.GetComponent<ItemOnObject>().itemInventory.itemValue = secondItemInventory.itemValue;
                                     dup.GetComponent<SplitItem>().inv.stackableSettings();
                                     dup.transform.parent.parent.parent.GetComponent<Inventory>().updateItemList();
                                 }
@@ -505,13 +505,13 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             else
                             {
                                 //creates the rest of the item
-                                int rest = (firstItem.itemValue + secondItem.itemValue) % firstItem.maxStack;
+                                int rest = (firstItemInventory.itemValue + secondItemInventory.itemValue) % firstItemInventory.maxStack;
 
                                 //fill up the other stack and adds the rest to the other stack 
                                 if (!fitsIntoStack && rest > 0)
                                 {
-                                    firstItem.itemValue = firstItem.maxStack;
-                                    secondItem.itemValue = rest;
+                                    firstItemInventory.itemValue = firstItemInventory.maxStack;
+                                    secondItemInventory.itemValue = rest;
 
                                     firstItemGameObject.transform.SetParent(secondItemGameObject.transform.parent);
                                     secondItemGameObject.transform.SetParent(oldSlot.transform);
@@ -531,13 +531,13 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             //creates the rest of the item
                             int rest = 0;
                             if (sameItem)
-                                rest = (firstItem.itemValue + secondItem.itemValue) % firstItem.maxStack;
+                                rest = (firstItemInventory.itemValue + secondItemInventory.itemValue) % firstItemInventory.maxStack;
 
                             //fill up the other stack and adds the rest to the other stack 
                             if (!fitsIntoStack && rest > 0)
                             {
-                                secondItem.itemValue = firstItem.maxStack;
-                                firstItem.itemValue = rest;
+                                secondItemInventory.itemValue = firstItemInventory.maxStack;
+                                firstItemInventory.itemValue = rest;
 
                                 firstItemGameObject.transform.SetParent(secondItemGameObject.transform.parent);
                                 secondItemGameObject.transform.SetParent(oldSlot.transform);
@@ -551,7 +551,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             else if (!fitsIntoStack && rest == 0)
                             {
                                 //if you are dragging an item from equipmentsystem to the inventory and try to swap it with the same itemtype
-                                if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null && firstItem.itemType == secondItem.itemType)
+                                if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null && firstItemInventory.itemType == secondItemInventory.itemType)
                                 {                                  
 
                                     firstItemGameObject.transform.SetParent(secondItemGameObject.transform.parent);
@@ -559,11 +559,11 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                                     secondItemRectTransform.localPosition = Vector3.zero;
                                     firstItemRectTransform.localPosition = Vector3.zero;
 
-                                    oldSlot.transform.parent.parent.GetComponent<Inventory>().EquiptItem(secondItem);
-                                    newSlot.transform.parent.parent.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItem);
+                                    oldSlot.transform.parent.parent.GetComponent<Inventory>().EquiptItem(secondItemInventory);
+                                    newSlot.transform.parent.parent.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItemInventory);
                                 }
                                 //if you are dragging an item from the equipmentsystem to the inventory and they are not from the same itemtype they do not get swapped.                                    
-                                else if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null && firstItem.itemType != secondItem.itemType)
+                                else if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null && firstItemInventory.itemType != secondItemInventory.itemType)
                                 {
                                     firstItemGameObject.transform.SetParent(oldSlot.transform);
                                     firstItemRectTransform.localPosition = Vector3.zero;
@@ -593,7 +593,7 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
                             firstItemRectTransform.localPosition = Vector3.zero;
 
                             if (newSlot.transform.parent.parent.GetComponent<EquipmentSystem>() == null && oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null)
-                                oldSlot.transform.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItem);
+                                oldSlot.transform.parent.parent.GetComponent<Inventory>().UnEquipItem1(firstItemInventory);
                         }
                     }
 
@@ -604,13 +604,13 @@ public class DragItem : MonoBehaviour, IDragHandler, IPointerDownHandler, IEndDr
 
             else
             {
-                GameObject dropItem = (GameObject)Instantiate(GetComponent<ItemOnObject>().item.itemModel);
+                GameObject dropItem = (GameObject)Instantiate(GetComponent<ItemOnObject>().itemInventory.itemModel);
                 dropItem.AddComponent<PickUpItem>();
-                dropItem.GetComponent<PickUpItem>().item = this.gameObject.GetComponent<ItemOnObject>().item;               
+                dropItem.GetComponent<PickUpItem>().itemInventory = this.gameObject.GetComponent<ItemOnObject>().itemInventory;               
                 dropItem.transform.localPosition = GameObject.FindGameObjectWithTag("Player").transform.localPosition;
                 inventory.OnUpdateItemList();
                 if (oldSlot.transform.parent.parent.GetComponent<EquipmentSystem>() != null)
-                    inventory.GetComponent<Inventory>().UnEquipItem1(dropItem.GetComponent<PickUpItem>().item);
+                    inventory.GetComponent<Inventory>().UnEquipItem1(dropItem.GetComponent<PickUpItem>().itemInventory);
                 Destroy(this.gameObject);
 
             }

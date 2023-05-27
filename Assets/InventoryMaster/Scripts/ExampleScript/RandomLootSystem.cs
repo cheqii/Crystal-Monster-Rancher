@@ -33,7 +33,7 @@ public class RandomLootSystem : MonoBehaviour
             {
                 GameObject randomLootItem = (GameObject)Instantiate(inventoryItemList.itemList[randomNumber].itemModel);
                 PickUpItem item = randomLootItem.AddComponent<PickUpItem>();
-                item.item = inventoryItemList.itemList[randomNumber];
+                item.itemInventory = inventoryItemList.itemList[randomNumber];
 
                 randomLootItem.transform.localPosition = new Vector3(x, 0, z);
             }

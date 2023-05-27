@@ -30,10 +30,10 @@ public class CraftSystem : MonoBehaviour
     public Image arrowImage;
 
     //List<CraftSlot> slots = new List<CraftSlot>();
-    public List<Item> itemInCraftSystem = new List<Item>();
+    public List<ItemInventory> itemInCraftSystem = new List<ItemInventory>();
     public List<GameObject> itemInCraftSystemGameObject = new List<GameObject>();
     BlueprintDatabase blueprintDatabase;
-    public List<Item> possibleItems = new List<Item>();
+    public List<ItemInventory> possibleItems = new List<ItemInventory>();
     public List<bool> possibletoCreate = new List<bool>();
 
 
@@ -153,7 +153,7 @@ public class CraftSystem : MonoBehaviour
             Transform trans = transform.GetChild(1).GetChild(i);
             if (trans.childCount != 0)
             {
-                itemInCraftSystem.Add(trans.GetChild(0).GetComponent<ItemOnObject>().item);
+                itemInCraftSystem.Add(trans.GetChild(0).GetComponent<ItemOnObject>().itemInventory);
                 itemInCraftSystemGameObject.Add(trans.GetChild(0).gameObject);
             }
         }
@@ -173,7 +173,7 @@ public class CraftSystem : MonoBehaviour
                 }
                 if (amountOfTrue == blueprintDatabase.blueprints[k].ingredients.Count)
                 {
-                    possibleItems.Add(blueprintDatabase.blueprints[k].finalItem);
+                    possibleItems.Add(blueprintDatabase.blueprints[k].finalItemInventory);
                     possibleItems[possibleItems.Count - 1].itemValue = blueprintDatabase.blueprints[k].amountOfFinalItem;
                     possibletoCreate.Add(true);
                 }
@@ -182,11 +182,11 @@ public class CraftSystem : MonoBehaviour
 
     }
 
-    public void deleteItems(Item item)
+    public void deleteItems(ItemInventory itemInventory)
     {
         for (int i = 0; i < blueprintDatabase.blueprints.Count; i++)
         {
-            if (blueprintDatabase.blueprints[i].finalItem.Equals(item))
+            if (blueprintDatabase.blueprints[i].finalItemInventory.Equals(itemInventory))
             {
                 for (int k = 0; k < blueprintDatabase.blueprints[i].ingredients.Count; k++)
                 {

@@ -16,8 +16,13 @@ public class Knife : Weapon
 
     [Header("On Hold")]
     [SerializeField] private GunType hold = GunType.None;
+    
     private Camera _camera;
     private float nextStab;
+
+    private GameObject mainInventory;
+    private GameObject storageInventory;
+    
     #endregion
 
     #region -Unity Event Functions-
@@ -42,6 +47,14 @@ public class Knife : Weapon
         if (hold != GunType.None) return;
         if (Input.GetMouseButtonDown(0) && nextStab > knifeDelay)
         {
+            // if inventory or storage is open, can't stab a knife
+            var main = GameObject.FindGameObjectWithTag("MainInventory");
+            var storage = GameObject.FindGameObjectWithTag("Storage");
+            mainInventory = main;
+            storageInventory = storage;
+            
+            if(main) if(mainInventory.activeSelf) return;
+            if(storage) if(storageInventory.activeSelf) return;
             
             Vector3 rayOrigin = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;

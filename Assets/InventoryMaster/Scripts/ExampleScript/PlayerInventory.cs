@@ -17,6 +17,9 @@ public class PlayerInventory : MonoBehaviour
     private InventoryInputManager inputManagerDatabase;
 
     public GameObject HPMANACanvas;
+    
+    public OwnHotbar hotbar;
+    public GameObject storage;
 
     Text hpText;
     Text manaText;
@@ -61,40 +64,40 @@ public class PlayerInventory : MonoBehaviour
         Inventory.ItemEquip -= EquipWeapon;
     }
 
-    void EquipWeapon(Item item)
+    void EquipWeapon(ItemInventory itemInventory)
     {
-        if (item.itemType == ItemType.Weapon)
+        if (itemInventory.itemType == ItemType.Weapon)
         {
             //add the weapon if you unequip the weapon
         }
     }
 
-    void UnEquipWeapon(Item item)
+    void UnEquipWeapon(ItemInventory itemInventory)
     {
-        if (item.itemType == ItemType.Weapon)
+        if (itemInventory.itemType == ItemType.Weapon)
         {
             //delete the weapon if you unequip the weapon
         }
     }
 
-    void OnBackpack(Item item)
+    void OnBackpack(ItemInventory itemInventory)
     {
-        if (item.itemType == ItemType.Backpack)
+        if (itemInventory.itemType == ItemType.Backpack)
         {
-            for (int i = 0; i < item.itemAttributes.Count; i++)
+            for (int i = 0; i < itemInventory.itemAttributes.Count; i++)
             {
                 if (mainInventory == null)
                     mainInventory = inventory.GetComponent<Inventory>();
                 mainInventory.sortItems();
-                if (item.itemAttributes[i].attributeName == "Slots")
-                    changeInventorySize(item.itemAttributes[i].attributeValue);
+                if (itemInventory.itemAttributes[i].attributeName == "Slots")
+                    changeInventorySize(itemInventory.itemAttributes[i].attributeValue);
             }
         }
     }
 
-    void UnEquipBackpack(Item item)
+    void UnEquipBackpack(ItemInventory itemInventory)
     {
-        if (item.itemType == ItemType.Backpack)
+        if (itemInventory.itemType == ItemType.Backpack)
             changeInventorySize(normalSize);
     }
 
@@ -149,7 +152,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 GameObject dropItem = (GameObject)Instantiate(mainInventory.ItemsInInventory[i].itemModel);
                 dropItem.AddComponent<PickUpItem>();
-                dropItem.GetComponent<PickUpItem>().item = mainInventory.ItemsInInventory[i];
+                dropItem.GetComponent<PickUpItem>().itemInventory = mainInventory.ItemsInInventory[i];
                 dropItem.transform.localPosition = GameObject.FindGameObjectWithTag("Player").transform.localPosition;
             }
         }
@@ -201,37 +204,37 @@ public class PlayerInventory : MonoBehaviour
     //}
 
 
-    public void OnConsumeItem(Item item)
+    public void OnConsumeItem(ItemInventory itemInventory)
     {
-        for (int i = 0; i < item.itemAttributes.Count; i++)
+        for (int i = 0; i < itemInventory.itemAttributes.Count; i++)
         {
-            if (item.itemAttributes[i].attributeName == "Health")
+            if (itemInventory.itemAttributes[i].attributeName == "Health")
             {
-                if ((currentHealth + item.itemAttributes[i].attributeValue) > maxHealth)
+                if ((currentHealth + itemInventory.itemAttributes[i].attributeValue) > maxHealth)
                     currentHealth = maxHealth;
                 else
-                    currentHealth += item.itemAttributes[i].attributeValue;
+                    currentHealth += itemInventory.itemAttributes[i].attributeValue;
             }
-            if (item.itemAttributes[i].attributeName == "Mana")
+            if (itemInventory.itemAttributes[i].attributeName == "Mana")
             {
-                if ((currentMana + item.itemAttributes[i].attributeValue) > maxMana)
+                if ((currentMana + itemInventory.itemAttributes[i].attributeValue) > maxMana)
                     currentMana = maxMana;
                 else
-                    currentMana += item.itemAttributes[i].attributeValue;
+                    currentMana += itemInventory.itemAttributes[i].attributeValue;
             }
-            if (item.itemAttributes[i].attributeName == "Armor")
+            if (itemInventory.itemAttributes[i].attributeName == "Armor")
             {
-                if ((currentArmor + item.itemAttributes[i].attributeValue) > maxArmor)
+                if ((currentArmor + itemInventory.itemAttributes[i].attributeValue) > maxArmor)
                     currentArmor = maxArmor;
                 else
-                    currentArmor += item.itemAttributes[i].attributeValue;
+                    currentArmor += itemInventory.itemAttributes[i].attributeValue;
             }
-            if (item.itemAttributes[i].attributeName == "Damage")
+            if (itemInventory.itemAttributes[i].attributeName == "Damage")
             {
-                if ((currentDamage + item.itemAttributes[i].attributeValue) > maxDamage)
+                if ((currentDamage + itemInventory.itemAttributes[i].attributeValue) > maxDamage)
                     currentDamage = maxDamage;
                 else
-                    currentDamage += item.itemAttributes[i].attributeValue;
+                    currentDamage += itemInventory.itemAttributes[i].attributeValue;
             }
         }
         //if (HPMANACanvas != null)
@@ -241,18 +244,18 @@ public class PlayerInventory : MonoBehaviour
         //}
     }
 
-    public void OnGearItem(Item item)
+    public void OnGearItem(ItemInventory itemInventory)
     {
-        for (int i = 0; i < item.itemAttributes.Count; i++)
+        for (int i = 0; i < itemInventory.itemAttributes.Count; i++)
         {
-            if (item.itemAttributes[i].attributeName == "Health")
-                maxHealth += item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Mana")
-                maxMana += item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Armor")
-                maxArmor += item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Damage")
-                maxDamage += item.itemAttributes[i].attributeValue;
+            if (itemInventory.itemAttributes[i].attributeName == "Health")
+                maxHealth += itemInventory.itemAttributes[i].attributeValue;
+            if (itemInventory.itemAttributes[i].attributeName == "Mana")
+                maxMana += itemInventory.itemAttributes[i].attributeValue;
+            if (itemInventory.itemAttributes[i].attributeName == "Armor")
+                maxArmor += itemInventory.itemAttributes[i].attributeValue;
+            if (itemInventory.itemAttributes[i].attributeName == "Damage")
+                maxDamage += itemInventory.itemAttributes[i].attributeValue;
         }
         //if (HPMANACanvas != null)
         //{
@@ -261,18 +264,18 @@ public class PlayerInventory : MonoBehaviour
         //}
     }
 
-    public void OnUnEquipItem(Item item)
+    public void OnUnEquipItem(ItemInventory itemInventory)
     {
-        for (int i = 0; i < item.itemAttributes.Count; i++)
+        for (int i = 0; i < itemInventory.itemAttributes.Count; i++)
         {
-            if (item.itemAttributes[i].attributeName == "Health")
-                maxHealth -= item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Mana")
-                maxMana -= item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Armor")
-                maxArmor -= item.itemAttributes[i].attributeValue;
-            if (item.itemAttributes[i].attributeName == "Damage")
-                maxDamage -= item.itemAttributes[i].attributeValue;
+            if (itemInventory.itemAttributes[i].attributeName == "Health")
+                maxHealth -= itemInventory.itemAttributes[i].attributeValue;
+            if (itemInventory.itemAttributes[i].attributeName == "Mana")
+                maxMana -= itemInventory.itemAttributes[i].attributeValue;
+            if (itemInventory.itemAttributes[i].attributeName == "Armor")
+                maxArmor -= itemInventory.itemAttributes[i].attributeValue;
+            if (itemInventory.itemAttributes[i].attributeName == "Damage")
+                maxDamage -= itemInventory.itemAttributes[i].attributeValue;
         }
         //if (HPMANACanvas != null)
         //{
@@ -297,6 +300,7 @@ public class PlayerInventory : MonoBehaviour
                 if (toolTip != null)
                     toolTip.deactivateTooltip();
                 characterSystemInventory.closeInventory();
+                
             }
         }
 
@@ -305,12 +309,18 @@ public class PlayerInventory : MonoBehaviour
             if (!inventory.activeSelf)
             {
                 mainInventory.openInventory();
+                hotbar.barActive = false;
+                hotbar.DisableHotbarSlot();
+                
             }
             else
             {
                 if (toolTip != null)
                     toolTip.deactivateTooltip();
                 mainInventory.closeInventory();
+                if(storage.activeSelf) return;
+                hotbar.barActive = true;
+                hotbar.DisableHotbarSlot();
             }
         }
 

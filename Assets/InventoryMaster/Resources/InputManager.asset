@@ -18,5 +18,5 @@ MonoBehaviour:
   SplitItem: 305
   InventoryKeyCode: 105
   StorageKeyCode: 101
-  CharacterSystemKeyCode: 99
+  CharacterSystemKeyCode: 0
   CraftSystemKeyCode: 107

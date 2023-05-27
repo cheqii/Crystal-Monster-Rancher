@@ -16,7 +16,7 @@ public class CreateItemDatabase
 
         AssetDatabase.CreateAsset(asset, "Assets/InventoryMaster/Resources/ItemDatabase.asset");            //in the Folder Assets/Resources/ItemDatabase.asset
         AssetDatabase.SaveAssets();                                                         //and than saves it there
-        asset.itemList.Add(new Item());
+        asset.itemList.Add(new ItemInventory());
         return asset;
     }
 #endif
