@@ -60,12 +60,13 @@ public class RobotArmMachine : MonoBehaviour
             pointNumber++;
             
             var t = 0.0f;
+           
+            
             if (pointNumber == 4)
             {
                 targetObj.GetComponent<Rigidbody>().useGravity = false;
                 targetObj.GetComponent<Rigidbody>().isKinematic = true;
                 targetObj.transform.SetParent(clawTip);
-                _animator.SetTrigger("Grab");
             }
             if (pointNumber == 7)
             {
@@ -82,6 +83,10 @@ public class RobotArmMachine : MonoBehaviour
                 if (pointNumber == 4)
                 {
                     targetObj.transform.position = Vector3.Lerp(targetObj.transform.position, clawTip.position, t);
+                }
+                if (pointNumber == 3 && t > 0.5f)
+                {
+                    _animator.SetTrigger("Grab");
                 }
                 
                 yield return new WaitForSeconds(Time.deltaTime);
