@@ -2924,7 +2924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dfd73a08607fe94b948106d59dfd0d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
+  itemInventory:
     itemName: 
     itemID: 0
     itemDesc: 
@@ -4864,6 +4864,7 @@ MonoBehaviour:
   height: 5
   width: 8
   stackable: 1
+  openInv: 0
   slotSize: 72
   iconSize: 52
   paddingBetweenX: 16
@@ -5312,7 +5313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeee4d1094181f94eb55424d868d1e16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
+  itemInventory:
     itemName: 
     itemID: 0
     itemDesc: 
@@ -5392,7 +5393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e183a0fcf91889441a73da5cab2cf034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item:
+  itemInventory:
     itemName: Hamburger
     itemID: 17
     itemDesc: 'This hamburger gives you health and mana back.
@@ -10574,6 +10575,7 @@ MonoBehaviour:
   height: 3
   width: 4
   stackable: 0
+  openInv: 0
   slotSize: 50
   iconSize: 45
   paddingBetweenX: 12
@@ -14811,7 +14813,6 @@ MonoBehaviour:
     type: 3}
   laserOrigin: {fileID: 3626920510309304858}
   shootPoint: {fileID: 3071387490250796176}
-  ammoText: {fileID: 0}
 --- !u!4 &3626920509303284868
 Transform:
   m_ObjectHideFlags: 0
@@ -22850,9 +22851,6 @@ MonoBehaviour:
   _camera: {fileID: 3942577487463297013}
   xSensitivity: 30
   ySensitivity: 30
-  inventoryPanel: {fileID: 905172801}
-  storagePanel: {fileID: 1494192487}
-  crosshair: {fileID: 957687208}
 --- !u!114 &8532687396143730273
 MonoBehaviour:
   m_ObjectHideFlags: 0
