@@ -39,7 +39,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _WaterDense: 5
-    - _WaterHighlighIntensity: 0.188
+    - _WaterHighlighIntensity: 0.377
     - _WaterHighlight: 5
     - _WaterSpeed: 1.57
     m_Colors:
